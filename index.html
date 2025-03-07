@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Casa de TiBO</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="morning">
+    <div class="time-buttons">
+        <button class="time-button morning" data-time="morning">Mañana</button>
+        <button class="time-button afternoon" data-time="afternoon">Tarde</button>
+        <button class="time-button night" data-time="night">Noche</button>
+    </div>
+
+    <div id="sky-objects"></div>
+
+    <header>
+        <nav>
+            <!-- <div class="logo">
+                <a href="#inicio">
+                    <img src="images/tibo-logo.png" alt="TiBO Logo">
+                </a>
+            </div> -->
+            <ul class="menu">
+                <li><a href="index.html">casa</a></li>
+                <li><a href="#cuentos">cuentos</a></li>
+                <li><a href="#minijuegos">minijuegos</a></li>
+                <li><a href="#personajes">personajes</a></li>
+                <li><a href="#jugar">jugar</a></li>
+                <li><a href="english.html">english</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="welcome-message">
+                <h1>¡Bienvenidos a la Casa de TiBO!</h1>
+                <p>La serie TiBO sigue las aventuras de una adorable cachorra, quien junto a su hermana Lila, sus papás y amigos aprenden cosas nuevas sobre el mundo. ¡Disfruta de manualidades, juegos, noticias y más en Español!</p>
+            </div>
+            
+            <div class="carousel-container">
+                <div class="carousel">
+                    <div class="carousel-center">
+                        <img src="images/tibo-main.png" alt="TiBO">
+                    </div>
+                    <div class="carousel-items">
+                        <div class="carousel-item">
+                            <img src="images/story1.png" alt="Historia 1">
+                            <div class="carousel-icon">
+                                <img src="images/book-icon.png" alt="Libro">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story2.png" alt="Historia 2">
+                            <div class="carousel-icon">
+                                <img src="images/abc-icon.png" alt="ABC">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story3.png" alt="Historia 3">
+                            <div class="carousel-icon">
+                                <img src="images/book-icon.png" alt="Libro">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story4.png" alt="Historia 4">
+                            <div class="carousel-icon">
+                                <img src="images/abc-icon.png" alt="ABC">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story5.png" alt="Historia 5">
+                            <div class="carousel-icon">
+                                <img src="images/book-icon.png" alt="Libro">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story6.png" alt="Historia 6">
+                            <div class="carousel-icon">
+                                <img src="images/abc-icon.png" alt="ABC">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story7.png" alt="Historia 7">
+                            <div class="carousel-icon">
+                                <img src="images/book-icon.png" alt="Libro">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story8.png" alt="Historia 8">
+                            <div class="carousel-icon">
+                                <img src="images/abc-icon.png" alt="ABC">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story9.png" alt="Historia 9">
+                            <div class="carousel-icon">
+                                <img src="images/book-icon.png" alt="Libro">
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/story10.png" alt="Historia 10">
+                            <div class="carousel-icon">
+                                <img src="images/abc-icon.png" alt="ABC">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cuentos" class="content-section">
+            <h2>Cuentos</h2>
+            <div class="horizontal-scroll">
+                <div class="story-card" data-link="cuentos/jardin-magico">
+                    <img src="images/story1.png" alt="El Jardín Mágico">
+                    <h3>El Jardín Mágico</h3>
+                    <p>TiBO descubre un jardín lleno de plantas mágicas y nuevos amigos.</p>
+                </div>
+                <div class="story-card" data-link="cuentos/fiesta-sorpresa">
+                    <img src="images/story2.png" alt="La Fiesta Sorpresa">
+                    <h3>La Fiesta Sorpresa</h3>
+                    <p>Lila prepara una fiesta sorpresa para TiBO con la ayuda de todos.</p>
+                </div>
+                <div class="story-card" data-link="cuentos/dia-lluvia">
+                    <img src="images/story3.png" alt="El Día de Lluvia">
+                    <h3>El Día de Lluvia</h3>
+                    <p>TiBO y sus amigos descubren formas divertidas de jugar en casa.</p>
+                </div>
+                <div class="story-card" data-link="cuentos/dia-lluvia">
+                    <img src="images/story3.png" alt="El Día de Lluvia">
+                    <h3>El Día de Lluvia</h3>
+                    <p>TiBO y sus amigos descubren formas divertidas de jugar en casa.</p>
+                </div>
+                <!-- Agregar más cuentos aquí -->
+            </div>
+        </section>
+
+        <section id="minijuegos" class="content-section">
+            <h2>Minijuegos</h2>
+            <div class="horizontal-scroll">
+                <div class="story-card" data-link="cuentos/jardin-magico">
+                    <img src="images/story1.png" alt="El Jardín Mágico">
+                    <h3>El Jardín Mágico</h3>
+                    <p>TiBO descubre un jardín lleno de plantas mágicas y nuevos amigos.</p>
+                </div>
+                <div class="story-card" data-link="cuentos/fiesta-sorpresa">
+                    <img src="images/story2.png" alt="La Fiesta Sorpresa">
+                    <h3>La Fiesta Sorpresa</h3>
+                    <p>Lila prepara una fiesta sorpresa para TiBO con la ayuda de todos.</p>
+                </div>
+                <div class="story-card" data-link="cuentos/dia-lluvia">
+                    <img src="images/story3.png" alt="El Día de Lluvia">
+                    <h3>El Día de Lluvia</h3>
+                    <p>TiBO y sus amigos descubren formas divertidas de jugar en casa.</p>
+                </div>
+                <div class="story-card" data-link="cuentos/dia-lluvia">
+                    <img src="images/story3.png" alt="El Día de Lluvia">
+                    <h3>El Día de Lluvia</h3>
+                    <p>TiBO y sus amigos descubren formas divertidas de jugar en casa.</p>
+                </div>
+                <!-- Agregar más cuentos aquí -->
+            </div>
+        </section>
+
+        <section id="personajes" class="content-section">
+            <h2>Personajes</h2>
+            <div class="characters-container">
+                <div class="character-card">
+                    <img src="images/tibo-character.png" alt="TiBO">
+                    <h3>TiBO</h3>
+                    <p>Una cachorra llena de energía y creatividad.</p>
+                </div>
+                <div class="character-card">
+                    <img src="images/lila-character.png" alt="Lila">
+                    <h3>Lila</h3>
+                    <p>La hermana pequeña de TiBO, dulce y sensible.</p>
+                </div>
+                <div class="character-card">
+                    <img src="images/papa-character.png" alt="Papá">
+                    <h3>Papá</h3>
+                    <p>El papá de TiBO, siempre dispuesto a jugar.</p>
+                </div>
+                <div class="character-card">
+                    <img src="images/mama-character.png" alt="Mamá">
+                    <h3>Mamá</h3>
+                    <p>La mamá de TiBO, paciente y cariñosa.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="jugar" class="content-section">
+            <h2>Juegos</h2>
+            <div class="games-container">
+                <div class="game-card">
+                    <img src="images/game1.png" alt="Juego 1">
+                    <h3>Keepy Uppy</h3>
+                    <p>¡Mantén el globo en el aire!</p>
+                    <a href="#" class="play-button">Jugar</a>
+                </div>
+                <div class="game-card">
+                    <img src="images/game2.png" alt="Juego 2">
+                    <h3>Escondite</h3>
+                    <p>Ayuda a TiBO a encontrar a su familia.</p>
+                    <a href="#" class="play-button">Jugar</a>
+                </div>
+                <div class="game-card">
+                    <img src="images/game3.png" alt="Juego 3">
+                    <h3>Baile Congelado</h3>
+                    <p>Baila y congélate cuando pare la música.</p>
+                    <a href="#" class="play-button">Jugar</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="images/tibo-logo-small.png" alt="TiBO Logo">
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Contacto</a>
+            </div>
+            <p class="copyright">© 2023 TiBO. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
