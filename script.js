@@ -208,21 +208,32 @@ function initializeHorizontalScrolls() {
     document.querySelector('.games-container')
   ];
 
+  // Add styles for centered section titles
+  const sectionTitles = document.querySelectorAll('.content-section h2');
+  sectionTitles.forEach(title => {
+    title.style.textAlign = 'center';
+    title.style.marginBottom = '30px';
+  });
+
   scrollContainers.forEach(container => {
     if (!container) return;
     
-    // Mover las flechas fuera del contenedor de scroll
     const section = container.closest('.content-section');
     if (!section) return;
     
-    // Eliminar flechas existentes para evitar duplicados
+    // Remove existing arrows
     const existingLeftArrows = section.querySelectorAll('.scroll-arrow.left');
     const existingRightArrows = section.querySelectorAll('.scroll-arrow.right');
     
     existingLeftArrows.forEach(arrow => arrow.remove());
     existingRightArrows.forEach(arrow => arrow.remove());
     
-    // Crear nuevas flechas y añadirlas a la sección
+    const cards = container.querySelectorAll('.story-card, .minigame-card, .character-card, .game-card');
+    
+    // Only create arrows if there are enough cards to scroll
+    if (cards.length <= 1) return;
+    
+    // Create arrows only if needed
     const leftArrow = document.createElement('div');
     leftArrow.className = 'scroll-arrow left';
     leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
@@ -233,17 +244,15 @@ function initializeHorizontalScrolls() {
     rightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
     section.appendChild(rightArrow);
     
-    const cards = container.querySelectorAll('.story-card, .minigame-card, .character-card, .game-card');
-    
     if (!cards.length) return;
     
-    // Ajustar el ancho de las tarjetas según el tamaño de la pantalla
+    // Adjust card widths based on screen size
     function adjustCardWidths() {
       const containerWidth = container.clientWidth;
       const isMobile = window.innerWidth <= 768;
-      const gap = 30; // Gap entre tarjetas
+      const gap = 30; // Gap between cards
       
-      // En móviles y tablets, mostrar solo una tarjeta a la vez
+      // On mobile and tablets, show only one card at a time
       if (isMobile) {
         const cardWidth = containerWidth - (gap * 2);
         cards.forEach(card => {
@@ -253,7 +262,7 @@ function initializeHorizontalScrolls() {
         });
         return cardWidth + gap;
       } else {
-        // En desktop, mantener el tamaño fijo
+        // On desktop, maintain fixed size
         cards.forEach(card => {
           card.style.flex = '0 0 300px';
           card.style.minWidth = '300px';
@@ -265,15 +274,35 @@ function initializeHorizontalScrolls() {
     
     let scrollAmount = adjustCardWidths();
     
-    // Actualizar cuando cambie el tamaño de la ventana
+    // Check if we need arrows (only if content width exceeds container width)
+    function checkIfArrowsNeeded() {
+      const totalContentWidth = cards.length * scrollAmount;
+      const containerWidth = container.clientWidth;
+      
+      // Hide both arrows if there's not enough content to scroll
+      if (totalContentWidth <= containerWidth) {
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'none';
+        return false;
+      } else {
+        leftArrow.style.display = 'flex';
+        rightArrow.style.display = 'flex';
+        return true;
+      }
+    }
+    
+    // Update when window resizes
     window.addEventListener('resize', () => {
       scrollAmount = adjustCardWidths();
-      updateArrowVisibility();
+      const arrowsNeeded = checkIfArrowsNeeded();
+      if (arrowsNeeded) {
+        updateArrowVisibility();
+      }
     });
     
-    // Función para actualizar la visibilidad de las flechas
+    // Function to update arrow visibility
     function updateArrowVisibility() {
-      // Mostrar/ocultar flecha izquierda
+      // Show/hide left arrow
       if (container.scrollLeft <= 10) {
         leftArrow.style.opacity = '0.5';
         leftArrow.style.pointerEvents = 'none';
@@ -282,7 +311,7 @@ function initializeHorizontalScrolls() {
         leftArrow.style.pointerEvents = 'auto';
       }
       
-      // Mostrar/ocultar flecha derecha
+      // Show/hide right arrow
       if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
         rightArrow.style.opacity = '0.5';
         rightArrow.style.pointerEvents = 'none';
@@ -292,27 +321,27 @@ function initializeHorizontalScrolls() {
       }
     }
     
-    // Evento para el botón izquierdo - scroll elemento por elemento
+    // Left arrow click event - scroll element by element
     leftArrow.addEventListener('click', () => {
       const currentScroll = container.scrollLeft;
       const targetScroll = Math.floor(currentScroll / scrollAmount) * scrollAmount - scrollAmount;
       container.scrollTo({ left: targetScroll, behavior: 'smooth' });
       
-      // Actualizar visibilidad de flechas después del scroll
+      // Update arrow visibility after scrolling
       setTimeout(updateArrowVisibility, 500);
     });
     
-    // Evento para el botón derecho - scroll elemento por elemento
+    // Right arrow click event - scroll element by element
     rightArrow.addEventListener('click', () => {
       const currentScroll = container.scrollLeft;
       const targetScroll = Math.ceil(currentScroll / scrollAmount) * scrollAmount + scrollAmount;
       container.scrollTo({ left: targetScroll, behavior: 'smooth' });
       
-      // Actualizar visibilidad de flechas después del scroll
+      // Update arrow visibility after scrolling
       setTimeout(updateArrowVisibility, 500);
     });
     
-    // Detectar cuando termina el scroll para ajustar a la posición correcta
+    // Detect when scrolling ends to adjust to correct position
     container.addEventListener('scroll', () => {
       clearTimeout(container.scrollEndTimer);
       container.scrollEndTimer = setTimeout(() => {
@@ -320,13 +349,16 @@ function initializeHorizontalScrolls() {
       }, 150);
     });
     
-    // Inicializar visibilidad de flechas
-    updateArrowVisibility();
+    // Initialize arrow visibility and check if arrows are needed
+    const arrowsNeeded = checkIfArrowsNeeded();
+    if (arrowsNeeded) {
+      updateArrowVisibility();
+    }
     
-    // Desactivar el scroll libre con el mouse/touch para forzar el uso de las flechas
+    // Disable free scrolling with mouse/touch to force using arrows
     container.style.overscrollBehaviorX = 'none';
     
-    // Eventos táctiles para swipe en móviles (con snap a elementos)
+    // Touch events for swipe on mobile (with snap to elements)
     let startX;
     let startScrollLeft;
     let touchStartTime;
