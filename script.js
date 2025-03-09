@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeAutoTimeChange()
   initializeSkyObjects()
   initializeHorizontalScrolls()
+  initializeMenuToggle() // Add this line to initialize the menu toggle functionality
 })
 
 function initializeCarousel() {
@@ -405,24 +406,75 @@ function initializeHorizontalScrolls() {
   });
 }
 
-// Funcionalidad del menú hamburguesa
-const menuToggle = document.querySelector('.menu-toggle');
-const menu = document.querySelector('.menu');
-
-menuToggle.addEventListener('click', () => {
-    menu.classList.toggle('active');
-});
-
-// Cerrar el menú al hacer clic en un enlace
-document.querySelectorAll('.menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        menu.classList.remove('active');
+function initializeMenuToggle() {
+  const menuToggle = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.menu');
+  const header = document.querySelector('header');
+  const logo = document.querySelector('.logo img');
+  let lastScrollTop = 0;
+  
+  // Create back to top button
+  const backToTopBtn = document.createElement('div');
+  backToTopBtn.className = 'back-to-top';
+  backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+  document.body.appendChild(backToTopBtn);
+  
+  if (menuToggle && menu) {
+    // Add logo to mobile menu
+    const menuLogo = document.createElement('div');
+    menuLogo.className = 'menu-logo';
+    menuLogo.innerHTML = `<img src="${logo.src}" alt="${logo.alt}">`;
+    menu.insertBefore(menuLogo, menu.firstChild);
+    
+    menuToggle.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
     });
-});
-
-// Cerrar el menú al hacer clic fuera de él
-document.addEventListener('click', (e) => {
-    if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+    
+    // Close menu when clicking a link
+    document.querySelectorAll('.menu a').forEach(link => {
+      link.addEventListener('click', () => {
         menu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !menuToggle.contains(e.target)) {
+        menu.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      }
+    });
+  }
+  
+  // Hide header on scroll down, show on scroll up
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+      // Scrolling down
+      header.classList.add('header-hidden');
+    } else {
+      // Scrolling up
+      header.classList.remove('header-hidden');
     }
-});
+    
+    // Show/hide back to top button
+    if (scrollTop > 300) {
+      backToTopBtn.classList.add('visible');
+    } else {
+      backToTopBtn.classList.remove('visible');
+    }
+    
+    lastScrollTop = scrollTop;
+  });
+  
+  // Back to top functionality
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}

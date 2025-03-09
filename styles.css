@@ -76,14 +76,18 @@ header {
 
 nav {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 20px;
+  position: relative;
 }
 
 /* Actualizar estilos del logo */
 .logo {
   transition: transform 0.3s ease;
+  margin-right: auto;
+  z-index: 1002;
 }
 
 .logo:hover {
@@ -122,10 +126,11 @@ nav {
   justify-content: flex-start;
   align-items: center;
   padding: 40px;
-  min-height: 100vh;
+  min-height: 90vh;
   position: relative;
   max-width: 100%;
   margin: 0;
+  margin-top: -50px;
   overflow: visible;
   z-index: 1;
 }
@@ -136,7 +141,7 @@ nav {
   padding: 40px;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
-  margin-top: 0;
+  margin-top: -50px;
   margin-left: 300px;
   margin-right: 0;
   aspect-ratio: 1.25;
@@ -164,7 +169,7 @@ nav {
 .carousel-container {
   position: absolute;
   right: 650px;
-  top: 30%;
+  top: 25%;
   transform: translateY(-50%);
   width: 800px;
   height: 800px;
@@ -552,13 +557,89 @@ footer {
     font-size: 1.5rem;
     color: var(--secondary-color);
     position: absolute;
-    top: 0px;
+    top: 10px;
     right: 20px;
     z-index: 1001;
 }
 
 .menu-toggle .fa-times {
     display: none;
+    color: var(--light-color);
+}
+
+.menu-toggle .fa-bars {
+    display: block;
+}
+
+.menu.active ~ .menu-toggle .fa-bars {
+    display: none;
+}
+
+.menu.active ~ .menu-toggle .fa-times {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.8rem;
+    z-index: 1003;
+}
+
+/* Header animation and back to top button */
+header {
+  transition: transform 0.3s ease;
+}
+
+header.header-hidden {
+  transform: translateY(-100%);
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+.menu-logo {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-logo {
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002;
+  }
+  
+  .menu-logo img {
+    height: 50px;
+  }
 }
 
 /* Responsive */
@@ -641,6 +722,10 @@ footer {
     padding-top: 50px;
   }
   
+  body.menu-open {
+    overflow: hidden;
+  }
+  
   .content-section h2 {
     font-size: 1.8em;
     margin-bottom: 25px;
@@ -651,6 +736,8 @@ footer {
     margin: 0;
     border-radius: 0;
     border-bottom: none;
+    background-color: transparent;
+    box-shadow: none;
   }
 
   .hero {
@@ -661,7 +748,7 @@ footer {
   }
 
   .welcome-message {
-    margin: 20px auto;
+    margin: 50px auto 20px;
     max-width: 90%;
     aspect-ratio: auto;
     padding: 30px;
@@ -696,6 +783,13 @@ footer {
 
   nav {
     gap: 0;
+    justify-content: flex-start;
+  }
+
+  .logo {
+    position: relative;
+    margin-right: 0;
+    z-index: 1002;
   }
 
   .menu {
@@ -704,13 +798,27 @@ footer {
     right: -100%;
     width: 100%;
     height: 100vh;
-    background-color: var(--light-color);
+    background-color: var(--light-color); /* Start with light color */
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
     transition: right 0.3s ease;
     z-index: 1000;
+    padding-top: 80px; /* Add padding for the logo */
+  }
+  
+  /* Apply background colors based on time of day */
+  body.morning .menu.active {
+    background: linear-gradient(135deg, #87ceeb 0%, #e0f6ff 100%);
+  }
+  
+  body.afternoon .menu.active {
+    background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%);
+  }
+  
+  body.night .menu.active {
+    background: linear-gradient(135deg, #f5a9e1 0%, #d14d9a 100%);
   }
 
   .menu.active {
@@ -726,9 +834,11 @@ footer {
   }
 
   .menu li a {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     padding: 10px 20px;
     display: block;
+    color: var(--light-color);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   }
 
   .logo img {
@@ -751,7 +861,7 @@ footer {
     background: rgba(255, 255, 255, 0.95);
     z-index: 2;
     margin-bottom: 20px;
-    margin-top: 0px;
+    margin-top: 30px;
   }
 
   .carousel-container {
@@ -938,7 +1048,7 @@ footer {
   }
 
   .welcome-message {
-    margin-top: 30px;
+    margin-top: 50px;
   }
 
   .cloud {
@@ -956,6 +1066,21 @@ footer {
     width: 60px;
     height: 60px;
     top: -27px;
+  }
+  
+  /* Improved mobile menu styling */
+  .menu li a {
+    font-size: 1.3rem;
+  }
+  
+  .menu-toggle {
+    top: 5px;
+    right: 15px;
+  }
+  
+  /* Ensure logo is visible in mobile view */
+  .logo img {
+    height: 35px;
   }
 }
 
