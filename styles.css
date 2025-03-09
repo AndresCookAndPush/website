@@ -34,30 +34,30 @@ body {
 /* Estilos para los fondos según la hora del día */
 body.morning {
   background: linear-gradient(180deg, 
-    #ffb06b 0%, 
-    #ffd88c 15%, 
-    #a5d9ff 40%, 
-    #9edfff 100%);
+    #9edfff  0%, 
+    #a5d9ff 15%, 
+    #ffd88c  40%, 
+    #ffb06b 100%);
   --cloud-color: rgba(255, 255, 255, 0.8);
   --text-shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 body.afternoon {
   background: linear-gradient(180deg, 
-    #ff7e47 0%, 
-    #ffb92e 25%, 
-    #83c0ff 60%, 
-    #65a7ff 100%);
+    #ffb92e 0%, 
+    #ffbf83 25%, 
+    #ff9665 60%, 
+    #ff7e47 100%);
   --cloud-color: rgba(255, 248, 240, 0.8);
   --text-shadow-color: rgba(122, 50, 10, 0.3);
 }
 
 body.night {
   background: linear-gradient(180deg, 
-    #0f1a3b 0%, 
-    #2c3e71 30%, 
-    #4c5f9e 60%, 
-    #7983c9 100%);
+    #7983c9 0%, 
+    #4c5f9e 30%, 
+    #2c3e71 60%, 
+    #0f1a3b 100%);
   --cloud-color: rgba(207, 219, 255, 0.6);
   --text-shadow-color: rgba(0, 0, 0, 0.5);
 }
@@ -292,29 +292,23 @@ nav {
 
 .content-section h2 {
   color: var(--secondary-color);
-  font-size: 2.5rem;
+  font-size: 5rem;
   margin-bottom: 60px;
   position: relative;
   text-align: center;
   font-weight: 700;
   text-transform: uppercase;
   text-shadow: 2px 2px 4px var(--text-shadow-color, transparent);
+  background-image: url('images/NormalClouds_Day.01.png');
+  background-size: 800px auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 20px 0;
+  z-index: 1;
 }
 
 .content-section h2::after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 300px;
-  height: 40px;
-  background-image: url('images/NormalClouds_Day.01.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 100%;
-  margin-top: 10px;
+  content: none;
 }
 
 .stories-container,
@@ -693,6 +687,10 @@ header.header-hidden {
   
   .menu-logo img {
     height: 50px;
+  }
+
+  .content-section h2 {
+    background-size: 400px auto;
   }
 }
 
