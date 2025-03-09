@@ -33,15 +33,33 @@ body {
 
 /* Estilos para los fondos según la hora del día */
 body.morning {
-  background: linear-gradient(135deg, #87ceeb 0%, #e0f6ff 100%);
+  background: linear-gradient(180deg, 
+    #ffb06b 0%, 
+    #ffd88c 15%, 
+    #a5d9ff 40%, 
+    #9edfff 100%);
+  --cloud-color: rgba(255, 255, 255, 0.8);
+  --text-shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 body.afternoon {
-  background: linear-gradient(135deg, #ffa500 0%, #ff6347 100%);
+  background: linear-gradient(180deg, 
+    #ff7e47 0%, 
+    #ffb92e 25%, 
+    #83c0ff 60%, 
+    #65a7ff 100%);
+  --cloud-color: rgba(255, 248, 240, 0.8);
+  --text-shadow-color: rgba(122, 50, 10, 0.3);
 }
 
 body.night {
-  background: linear-gradient(135deg, #f5a9e1 0%, #d14d9a 100%);
+  background: linear-gradient(180deg, 
+    #0f1a3b 0%, 
+    #2c3e71 30%, 
+    #4c5f9e 60%, 
+    #7983c9 100%);
+  --cloud-color: rgba(207, 219, 255, 0.6);
+  --text-shadow-color: rgba(0, 0, 0, 0.5);
 }
 
 a {
@@ -275,11 +293,28 @@ nav {
 .content-section h2 {
   color: var(--secondary-color);
   font-size: 2.5rem;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
   position: relative;
   text-align: center;
   font-weight: 700;
   text-transform: uppercase;
+  text-shadow: 2px 2px 4px var(--text-shadow-color, transparent);
+}
+
+.content-section h2::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 300px;
+  height: 40px;
+  background-image: url('images/NormalClouds_Day.01.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  margin-top: 10px;
 }
 
 .stories-container,
@@ -297,6 +332,7 @@ nav {
   justify-content: center;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  padding-top: 120px; /* Añadir espacio para las imágenes que sobresalen */
 }
 
 /* Ocultar scrollbar para Chrome, Safari y Opera */
@@ -310,7 +346,8 @@ nav {
 /* Botones de navegación */
 .scroll-arrow {
   position: absolute;
-  top: 50%;
+  top: 50%; /* Centrado vertical relativo al contenedor */
+  margin-top: 60px; /* Compensar por el espacio extra en la parte superior */
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
@@ -351,10 +388,13 @@ nav {
   flex: 0 0 300px;
   min-width: 300px;
   max-width: 300px;
-  /* background-color: white; */
+  background-color: white;
   border-radius: 20px;
-  overflow: hidden;
-  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
+  overflow: visible; /* Cambiado a visible para permitir que las imágenes circulares sobresalgan */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding-top: 120px; /* Espacio para la imagen circular que sobresale */
+  position: relative;
+  margin-top: 120px; /* Espacio adicional para la imagen */
 }
 
 .story-card:hover,
@@ -369,12 +409,15 @@ nav {
 .minigame-card img,
 .character-card img,
 .game-card img {
-  width: 100%;
+  width: 240px;
   height: 240px;
-  background-color: #ff525200;
-  object-fit: content;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .story-card .card-content,
@@ -384,9 +427,9 @@ nav {
   padding: 20px;
   display: flex;
   background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 20px;
   flex-direction: column;
-  height: 240px;
+  height: 200px;
   justify-content: space-between;
 }
 
@@ -493,18 +536,19 @@ footer {
   position: fixed;
   width: 200px;
   height: 60px;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: var(--cloud-color, rgba(255, 255, 255, 0.7));
   border-radius: 200px;
   animation: moveCloud linear infinite;
   z-index: -1;
   left: -200px;
+  will-change: transform; /* Mejora el rendimiento de la animación */
 }
 
 .cloud:before,
 .cloud:after {
   content: "";
   position: absolute;
-  background-color: #fff;
+  background-color: var(--cloud-color, #fff);
   width: 100px;
   height: 80px;
   top: -15px;
@@ -524,10 +568,10 @@ footer {
 
 @keyframes moveCloud {
   0% {
-    transform: translateX(0);
+    transform: translateX(0) scale(var(--cloud-scale, 1));
   }
   100% {
-    transform: translateX(calc(100vw + 400px)); /* AJUSTAR: Aumenta este valor para que las nubes se muevan más lejos */
+    transform: translateX(calc(100vw + 600px)) scale(var(--cloud-scale, 1)); /* Extendemos la distancia para mejor distribución */
   }
 }
 

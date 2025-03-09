@@ -171,18 +171,37 @@ function updateSkyObjects(time) {
 }
 
 function createClouds(container) {
+  // Reducimos el número de nubes para que no se superpongan tanto
   const cloudCount = 5
-  const minDuration = 30
-  const maxDuration = 60
-  const minHeight = 100 // Nueva altura mínima
-  const maxHeight = 300 // Nueva altura máxima
-
+  // Aumentamos la duración para un movimiento más suave y lento
+  const minDuration = 60
+  const maxDuration = 120
+  // Distribuir las nubes verticalmente a lo largo de toda la página
+  const screenHeight = Math.max(window.innerHeight, document.body.scrollHeight)
+  const sectionHeight = screenHeight / cloudCount
+  
   for (let i = 0; i < cloudCount; i++) {
     const cloud = document.createElement("div")
     cloud.className = "cloud"
-    cloud.style.top = `${minHeight + Math.random() * (maxHeight - minHeight)}px`
+    
+    // Posicionamiento vertical distribuido en secciones para evitar superposición
+    const sectionTop = i * sectionHeight
+    const randomOffset = Math.random() * (sectionHeight * 0.8)
+    cloud.style.top = `${sectionTop + randomOffset}px`
+    
+    // Tamaño aleatorio para las nubes (entre 70% y 100% del tamaño original)
+    const scale = 0.7 + Math.random() * 0.3
+    cloud.style.transform = `scale(${scale})`
+    
+    // Velocidad variable para más naturalidad
     cloud.style.animationDuration = `${minDuration + Math.random() * (maxDuration - minDuration)}s`
+    
+    // Distribuir el inicio horizontal de las nubes
     cloud.style.animationDelay = `${Math.random() * maxDuration}s`
+    
+    // Ajustar la opacidad de forma aleatoria para dar sensación de profundidad
+    cloud.style.opacity = 0.4 + Math.random() * 0.6
+    
     container.appendChild(cloud)
   }
 }
