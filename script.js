@@ -420,12 +420,6 @@ function initializeMenuToggle() {
   document.body.appendChild(backToTopBtn);
   
   if (menuToggle && menu) {
-    // Add logo to mobile menu
-    const menuLogo = document.createElement('div');
-    menuLogo.className = 'menu-logo';
-    menuLogo.innerHTML = `<img src="${logo.src}" alt="${logo.alt}">`;
-    menu.insertBefore(menuLogo, menu.firstChild);
-    
     menuToggle.addEventListener('click', () => {
       menu.classList.toggle('active');
       document.body.classList.toggle('menu-open');

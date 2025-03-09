@@ -564,19 +564,19 @@ footer {
 
 .menu-toggle .fa-times {
     display: none;
-    color: var(--light-color);
 }
 
 .menu-toggle .fa-bars {
     display: block;
 }
 
-.menu.active ~ .menu-toggle .fa-bars {
+body.menu-open .menu-toggle .fa-bars {
     display: none;
 }
 
-.menu.active ~ .menu-toggle .fa-times {
+body.menu-open .menu-toggle .fa-times {
     display: block;
+    color: var(--light-color);
     position: fixed;
     top: 20px;
     right: 20px;
