@@ -215,30 +215,23 @@ function initializeHorizontalScrolls() {
     const section = container.closest('.content-section');
     if (!section) return;
     
-    // Verificar si ya existen flechas en la sección
-    let leftArrow = section.querySelector('.scroll-arrow.left');
-    let rightArrow = section.querySelector('.scroll-arrow.right');
+    // Eliminar flechas existentes para evitar duplicados
+    const existingLeftArrows = section.querySelectorAll('.scroll-arrow.left');
+    const existingRightArrows = section.querySelectorAll('.scroll-arrow.right');
     
-    // Si no existen, crearlas y añadirlas a la sección (fuera del contenedor de scroll)
-    if (!leftArrow) {
-      leftArrow = document.createElement('div');
-      leftArrow.className = 'scroll-arrow left';
-      leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
-      section.appendChild(leftArrow);
-    }
+    existingLeftArrows.forEach(arrow => arrow.remove());
+    existingRightArrows.forEach(arrow => arrow.remove());
     
-    if (!rightArrow) {
-      rightArrow = document.createElement('div');
-      rightArrow.className = 'scroll-arrow right';
-      rightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
-      section.appendChild(rightArrow);
-    }
+    // Crear nuevas flechas y añadirlas a la sección
+    const leftArrow = document.createElement('div');
+    leftArrow.className = 'scroll-arrow left';
+    leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    section.appendChild(leftArrow);
     
-    // Eliminar las flechas que estén dentro del contenedor
-    const innerLeftArrow = container.querySelector('.scroll-arrow.left');
-    const innerRightArrow = container.querySelector('.scroll-arrow.right');
-    if (innerLeftArrow) innerLeftArrow.remove();
-    if (innerRightArrow) innerRightArrow.remove();
+    const rightArrow = document.createElement('div');
+    rightArrow.className = 'scroll-arrow right';
+    rightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    section.appendChild(rightArrow);
     
     const cards = container.querySelectorAll('.story-card, .minigame-card, .character-card, .game-card');
     
@@ -246,26 +239,28 @@ function initializeHorizontalScrolls() {
     
     // Ajustar el ancho de las tarjetas según el tamaño de la pantalla
     function adjustCardWidths() {
+      const containerWidth = container.clientWidth;
       const isMobile = window.innerWidth <= 768;
-      const cardWidth = cards[0].offsetWidth;
-      const scrollAmount = cardWidth + 30; // 30px es el gap entre tarjetas
+      const gap = 30; // Gap entre tarjetas
       
       // En móviles y tablets, mostrar solo una tarjeta a la vez
       if (isMobile) {
+        const cardWidth = containerWidth - (gap * 2);
         cards.forEach(card => {
-          card.style.flex = '0 0 100%';
-          card.style.minWidth = '100%';
-          card.style.maxWidth = '100%';
+          card.style.flex = `0 0 ${cardWidth}px`;
+          card.style.minWidth = `${cardWidth}px`;
+          card.style.maxWidth = `${cardWidth}px`;
         });
+        return cardWidth + gap;
       } else {
+        // En desktop, mantener el tamaño fijo
         cards.forEach(card => {
           card.style.flex = '0 0 300px';
           card.style.minWidth = '300px';
           card.style.maxWidth = '300px';
         });
+        return 330; // 300px + 30px gap
       }
-      
-      return scrollAmount;
     }
     
     let scrollAmount = adjustCardWidths();
@@ -273,64 +268,107 @@ function initializeHorizontalScrolls() {
     // Actualizar cuando cambie el tamaño de la ventana
     window.addEventListener('resize', () => {
       scrollAmount = adjustCardWidths();
+      updateArrowVisibility();
     });
     
-    // Evento para el botón izquierdo
+    // Función para actualizar la visibilidad de las flechas
+    function updateArrowVisibility() {
+      // Mostrar/ocultar flecha izquierda
+      if (container.scrollLeft <= 10) {
+        leftArrow.style.opacity = '0.5';
+        leftArrow.style.pointerEvents = 'none';
+      } else {
+        leftArrow.style.opacity = '1';
+        leftArrow.style.pointerEvents = 'auto';
+      }
+      
+      // Mostrar/ocultar flecha derecha
+      if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
+        rightArrow.style.opacity = '0.5';
+        rightArrow.style.pointerEvents = 'none';
+      } else {
+        rightArrow.style.opacity = '1';
+        rightArrow.style.pointerEvents = 'auto';
+      }
+    }
+    
+    // Evento para el botón izquierdo - scroll elemento por elemento
     leftArrow.addEventListener('click', () => {
-      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      const currentScroll = container.scrollLeft;
+      const targetScroll = Math.floor(currentScroll / scrollAmount) * scrollAmount - scrollAmount;
+      container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      
+      // Actualizar visibilidad de flechas después del scroll
+      setTimeout(updateArrowVisibility, 500);
     });
     
-    // Evento para el botón derecho
+    // Evento para el botón derecho - scroll elemento por elemento
     rightArrow.addEventListener('click', () => {
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      const currentScroll = container.scrollLeft;
+      const targetScroll = Math.ceil(currentScroll / scrollAmount) * scrollAmount + scrollAmount;
+      container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      
+      // Actualizar visibilidad de flechas después del scroll
+      setTimeout(updateArrowVisibility, 500);
     });
     
-    // Eventos táctiles para móviles y tablets
-    let isDown = false;
+    // Detectar cuando termina el scroll para ajustar a la posición correcta
+    container.addEventListener('scroll', () => {
+      clearTimeout(container.scrollEndTimer);
+      container.scrollEndTimer = setTimeout(() => {
+        updateArrowVisibility();
+      }, 150);
+    });
+    
+    // Inicializar visibilidad de flechas
+    updateArrowVisibility();
+    
+    // Desactivar el scroll libre con el mouse/touch para forzar el uso de las flechas
+    container.style.overscrollBehaviorX = 'none';
+    
+    // Eventos táctiles para swipe en móviles (con snap a elementos)
     let startX;
-    let scrollLeft;
+    let startScrollLeft;
+    let touchStartTime;
     
-    container.addEventListener('mousedown', (e) => {
-      isDown = true;
-      container.style.cursor = 'grabbing';
-      startX = e.pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
-    });
-    
-    container.addEventListener('mouseleave', () => {
-      isDown = false;
-      container.style.cursor = 'grab';
-    });
-    
-    container.addEventListener('mouseup', () => {
-      isDown = false;
-      container.style.cursor = 'grab';
-    });
-    
-    container.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - container.offsetLeft;
-      const walk = (x - startX) * 2; // Velocidad de scroll
-      container.scrollLeft = scrollLeft - walk;
-    });
-    
-    // Eventos táctiles para dispositivos móviles
     container.addEventListener('touchstart', (e) => {
-      isDown = true;
-      startX = e.touches[0].pageX - container.offsetLeft;
-      scrollLeft = container.scrollLeft;
+      startX = e.touches[0].pageX;
+      startScrollLeft = container.scrollLeft;
+      touchStartTime = new Date().getTime();
     }, { passive: true });
     
-    container.addEventListener('touchend', () => {
-      isDown = false;
-    }, { passive: true });
-    
-    container.addEventListener('touchmove', (e) => {
-      if (!isDown) return;
-      const x = e.touches[0].pageX - container.offsetLeft;
-      const walk = (x - startX) * 2;
-      container.scrollLeft = scrollLeft - walk;
+    container.addEventListener('touchend', (e) => {
+      const touchEndTime = new Date().getTime();
+      const touchDuration = touchEndTime - touchStartTime;
+      
+      // Si el swipe fue rápido, mover un elemento completo
+      if (touchDuration < 300) {
+        const endX = e.changedTouches[0].pageX;
+        const diffX = startX - endX;
+        
+        if (Math.abs(diffX) > 50) { // Umbral mínimo para considerar un swipe
+          if (diffX > 0) {
+            // Swipe a la izquierda - ir al siguiente elemento
+            const targetScroll = Math.ceil(startScrollLeft / scrollAmount) * scrollAmount + scrollAmount;
+            container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+          } else {
+            // Swipe a la derecha - ir al elemento anterior
+            const targetScroll = Math.floor(startScrollLeft / scrollAmount) * scrollAmount - scrollAmount;
+            container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+          }
+        } else {
+          // Si no fue un swipe claro, volver a la posición de snap más cercana
+          const targetScroll = Math.round(container.scrollLeft / scrollAmount) * scrollAmount;
+          container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+        }
+      } else {
+        // Para toques largos, snap al elemento más cercano
+        const targetScroll = Math.round(container.scrollLeft / scrollAmount) * scrollAmount;
+        container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      }
+      
+      // Actualizar visibilidad de flechas después del scroll
+      setTimeout(updateArrowVisibility, 500);
     }, { passive: true });
   });
 }
