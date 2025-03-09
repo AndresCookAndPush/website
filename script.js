@@ -231,21 +231,86 @@ function initializeHorizontalScrolls() {
     
     const cards = container.querySelectorAll('.story-card, .minigame-card, .character-card, .game-card');
     
-    // Only create arrows if there are enough cards to scroll
-    if (cards.length <= 1) return;
+    // Nueva lógica de centrado estilo Bluey
+    // Si hay más de 3 elementos, solo mostramos 3 a la vez
+    // Si hay menos de 3, los mostramos todos centrados
+    function getMaxVisibleCards() {
+      return window.innerWidth <= 768 ? 1 : 3;
+    }
     
-    // Create arrows only if needed
-    const leftArrow = document.createElement('div');
-    leftArrow.className = 'scroll-arrow left';
-    leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    section.appendChild(leftArrow);
+    let maxVisibleCards = getMaxVisibleCards();
     
-    const rightArrow = document.createElement('div');
-    rightArrow.className = 'scroll-arrow right';
-    rightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
-    section.appendChild(rightArrow);
+    // Ocultar todos los cards primero
+    cards.forEach((card, index) => {
+      if (cards.length > maxVisibleCards) {
+        // Si hay más de 3 cards, solo mostrar los primeros 3
+        if (index < maxVisibleCards) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      } else {
+        // Si hay 3 o menos, mostrar todos
+        card.style.display = 'flex';
+      }
+    });
     
-    if (!cards.length) return;
+    // Centrar los contenedores
+    container.style.justifyContent = 'center';
+    
+    // Si hay más de 3 elementos, creamos flechas de navegación
+    if (cards.length > maxVisibleCards) {
+      // Create arrows for navigation
+      const leftArrow = document.createElement('div');
+      leftArrow.className = 'scroll-arrow left';
+      leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
+      section.appendChild(leftArrow);
+      
+      const rightArrow = document.createElement('div');
+      rightArrow.className = 'scroll-arrow right';
+      rightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      section.appendChild(rightArrow);
+      
+      // Variables para controlar la posición actual
+      let currentPosition = 0;
+      
+      // Función para actualizar los cards visibles
+      function updateVisibleCards() {
+        cards.forEach((card, index) => {
+          if (index >= currentPosition && index < currentPosition + maxVisibleCards) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        
+        // Actualizar estado de las flechas
+        leftArrow.style.opacity = currentPosition === 0 ? '0.5' : '1';
+        leftArrow.style.pointerEvents = currentPosition === 0 ? 'none' : 'auto';
+        
+        rightArrow.style.opacity = currentPosition + maxVisibleCards >= cards.length ? '0.5' : '1';
+        rightArrow.style.pointerEvents = currentPosition + maxVisibleCards >= cards.length ? 'none' : 'auto';
+      }
+      
+      // Left arrow click event - mostrar elementos previos
+      leftArrow.addEventListener('click', () => {
+        if (currentPosition > 0) {
+          currentPosition--;
+          updateVisibleCards();
+        }
+      });
+      
+      // Right arrow click event - mostrar elementos siguientes
+      rightArrow.addEventListener('click', () => {
+        if (currentPosition + maxVisibleCards < cards.length) {
+          currentPosition++;
+          updateVisibleCards();
+        }
+      });
+      
+      // Inicialización de estado de flechas
+      updateVisibleCards();
+    }
     
     // Adjust card widths based on screen size
     function adjustCardWidths() {
@@ -253,9 +318,9 @@ function initializeHorizontalScrolls() {
       const isMobile = window.innerWidth <= 768;
       const gap = 30; // Gap between cards
       
-      // On mobile and tablets, show only one card at a time
+      // On mobile, show only one card at a time
       if (isMobile) {
-        const cardWidth = containerWidth - (gap * 2);
+        const cardWidth = Math.min(containerWidth - (gap * 2), 300);
         cards.forEach(card => {
           card.style.flex = `0 0 ${cardWidth}px`;
           card.style.minWidth = `${cardWidth}px`;
@@ -273,136 +338,40 @@ function initializeHorizontalScrolls() {
       }
     }
     
-    let scrollAmount = adjustCardWidths();
+    // Aplicar ajustes iniciales
+    adjustCardWidths();
     
-    // Check if we need arrows (only if content width exceeds container width)
-    function checkIfArrowsNeeded() {
-      const totalContentWidth = cards.length * scrollAmount;
-      const containerWidth = container.clientWidth;
-      
-      // Hide both arrows if there's not enough content to scroll
-      if (totalContentWidth <= containerWidth) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'none';
-        return false;
-      } else {
-        leftArrow.style.display = 'flex';
-        rightArrow.style.display = 'flex';
-        return true;
-      }
-    }
-    
-    // Update when window resizes
+    // Actualizar cuando cambie el tamaño de la ventana
     window.addEventListener('resize', () => {
-      scrollAmount = adjustCardWidths();
-      const arrowsNeeded = checkIfArrowsNeeded();
-      if (arrowsNeeded) {
-        updateArrowVisibility();
-      }
-    });
-    
-    // Function to update arrow visibility
-    function updateArrowVisibility() {
-      // Show/hide left arrow
-      if (container.scrollLeft <= 10) {
-        leftArrow.style.opacity = '0.5';
-        leftArrow.style.pointerEvents = 'none';
-      } else {
-        leftArrow.style.opacity = '1';
-        leftArrow.style.pointerEvents = 'auto';
-      }
+      adjustCardWidths();
       
-      // Show/hide right arrow
-      if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-        rightArrow.style.opacity = '0.5';
-        rightArrow.style.pointerEvents = 'none';
-      } else {
-        rightArrow.style.opacity = '1';
-        rightArrow.style.pointerEvents = 'auto';
-      }
-    }
-    
-    // Left arrow click event - scroll element by element
-    leftArrow.addEventListener('click', () => {
-      const currentScroll = container.scrollLeft;
-      const targetScroll = Math.floor(currentScroll / scrollAmount) * scrollAmount - scrollAmount;
-      container.scrollTo({ left: targetScroll, behavior: 'smooth' });
-      
-      // Update arrow visibility after scrolling
-      setTimeout(updateArrowVisibility, 500);
-    });
-    
-    // Right arrow click event - scroll element by element
-    rightArrow.addEventListener('click', () => {
-      const currentScroll = container.scrollLeft;
-      const targetScroll = Math.ceil(currentScroll / scrollAmount) * scrollAmount + scrollAmount;
-      container.scrollTo({ left: targetScroll, behavior: 'smooth' });
-      
-      // Update arrow visibility after scrolling
-      setTimeout(updateArrowVisibility, 500);
-    });
-    
-    // Detect when scrolling ends to adjust to correct position
-    container.addEventListener('scroll', () => {
-      clearTimeout(container.scrollEndTimer);
-      container.scrollEndTimer = setTimeout(() => {
-        updateArrowVisibility();
-      }, 150);
-    });
-    
-    // Initialize arrow visibility and check if arrows are needed
-    const arrowsNeeded = checkIfArrowsNeeded();
-    if (arrowsNeeded) {
-      updateArrowVisibility();
-    }
-    
-    // Disable free scrolling with mouse/touch to force using arrows
-    container.style.overscrollBehaviorX = 'none';
-    
-    // Touch events for swipe on mobile (with snap to elements)
-    let startX;
-    let startScrollLeft;
-    let touchStartTime;
-    
-    container.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].pageX;
-      startScrollLeft = container.scrollLeft;
-      touchStartTime = new Date().getTime();
-    }, { passive: true });
-    
-    container.addEventListener('touchend', (e) => {
-      const touchEndTime = new Date().getTime();
-      const touchDuration = touchEndTime - touchStartTime;
-      
-      // Si el swipe fue rápido, mover un elemento completo
-      if (touchDuration < 300) {
-        const endX = e.changedTouches[0].pageX;
-        const diffX = startX - endX;
+      // Actualizar número de tarjetas visibles en función del ancho de pantalla
+      const newMaxVisibleCards = getMaxVisibleCards();
+      if (maxVisibleCards !== newMaxVisibleCards && cards.length > Math.min(maxVisibleCards, newMaxVisibleCards)) {
+        // Actualizar el valor de maxVisibleCards
+        maxVisibleCards = newMaxVisibleCards;
         
-        if (Math.abs(diffX) > 50) { // Umbral mínimo para considerar un swipe
-          if (diffX > 0) {
-            // Swipe a la izquierda - ir al siguiente elemento
-            const targetScroll = Math.ceil(startScrollLeft / scrollAmount) * scrollAmount + scrollAmount;
-            container.scrollTo({ left: targetScroll, behavior: 'smooth' });
-          } else {
-            // Swipe a la derecha - ir al elemento anterior
-            const targetScroll = Math.floor(startScrollLeft / scrollAmount) * scrollAmount - scrollAmount;
-            container.scrollTo({ left: targetScroll, behavior: 'smooth' });
-          }
+        // Solo llamar updateVisibleCards si existen las flechas de navegación
+        if (typeof updateVisibleCards === 'function') {
+          // Resetear a la primera página
+          currentPosition = 0;
+          updateVisibleCards();
         } else {
-          // Si no fue un swipe claro, volver a la posición de snap más cercana
-          const targetScroll = Math.round(container.scrollLeft / scrollAmount) * scrollAmount;
-          container.scrollTo({ left: targetScroll, behavior: 'smooth' });
+          // Si no hay navegación, actualizar manualmente la visualización
+          cards.forEach((card, index) => {
+            if (cards.length > maxVisibleCards) {
+              if (index < maxVisibleCards) {
+                card.style.display = 'flex';
+              } else {
+                card.style.display = 'none';
+              }
+            } else {
+              card.style.display = 'flex';
+            }
+          });
         }
-      } else {
-        // Para toques largos, snap al elemento más cercano
-        const targetScroll = Math.round(container.scrollLeft / scrollAmount) * scrollAmount;
-        container.scrollTo({ left: targetScroll, behavior: 'smooth' });
       }
-      
-      // Actualizar visibilidad de flechas después del scroll
-      setTimeout(updateArrowVisibility, 500);
-    }, { passive: true });
+    });
   });
 }
 
