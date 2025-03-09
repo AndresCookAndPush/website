@@ -294,20 +294,20 @@ nav {
 }
 
 /* Estilos para el carrusel de secciones */
-.carousel-wrapper {
-    width: 100%;
-    overflow-x: hidden;
-    position: relative;
-    padding: 0 40px;
+.carousel-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
 }
 
-.carousel-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    width: 100%;
-    margin: 20px 0;
+.carousel-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .carousel-section .carousel-items {
@@ -315,21 +315,11 @@ nav {
   transition: transform 0.5s ease;
   gap: 20px;
   padding: 10px;
-  position: static;
-  transform-style: preserve-3d;
-  width: max-content;
 }
 
 .carousel-section .carousel-item {
-  position: static;
+  flex: 0 0 auto;
   width: 280px;
-  height: auto;
-  margin: 0;
-  border-radius: 15px;
-  transform: none;
-  opacity: 1;
-}
-flex: 0 0 auto;
   background-color: var(--light-color);
   border-radius: 15px;
   overflow: hidden;
