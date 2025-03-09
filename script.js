@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeCarousel()
   initializeAutoTimeChange()
   initializeSkyObjects()
+  initializeHorizontalScrolls()
 })
 
 function initializeCarousel() {
@@ -196,6 +197,87 @@ function createStars(container) {
     star.style.animationDelay = `${Math.random()}s`
     container.appendChild(star)
   }
+}
+
+// Funcionalidad para el scroll horizontal
+function initializeHorizontalScrolls() {
+  const scrollContainers = [
+    document.querySelector('.stories-container'),
+    document.querySelector('.minigames-container'),
+    document.querySelector('.characters-container'),
+    document.querySelector('.games-container')
+  ];
+
+  scrollContainers.forEach(container => {
+    if (!container) return;
+    
+    const leftArrow = container.querySelector('.scroll-arrow.left');
+    const rightArrow = container.querySelector('.scroll-arrow.right');
+    const cards = container.querySelectorAll('.story-card, .minigame-card, .character-card, .game-card');
+    
+    if (!cards.length) return;
+    
+    const cardWidth = cards[0].offsetWidth;
+    const scrollAmount = cardWidth + 30; // 30px es el gap entre tarjetas
+    
+    // Evento para el botón izquierdo
+    leftArrow.addEventListener('click', () => {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+    
+    // Evento para el botón derecho
+    rightArrow.addEventListener('click', () => {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+    
+    // Eventos táctiles para móviles y tablets
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    
+    container.addEventListener('mousedown', (e) => {
+      isDown = true;
+      container.style.cursor = 'grabbing';
+      startX = e.pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      isDown = false;
+      container.style.cursor = 'grab';
+    });
+    
+    container.addEventListener('mouseup', () => {
+      isDown = false;
+      container.style.cursor = 'grab';
+    });
+    
+    container.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - container.offsetLeft;
+      const walk = (x - startX) * 2; // Velocidad de scroll
+      container.scrollLeft = scrollLeft - walk;
+    });
+    
+    // Eventos táctiles para dispositivos móviles
+    container.addEventListener('touchstart', (e) => {
+      isDown = true;
+      startX = e.touches[0].pageX - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+    }, { passive: true });
+    
+    container.addEventListener('touchend', () => {
+      isDown = false;
+    }, { passive: true });
+    
+    container.addEventListener('touchmove', (e) => {
+      if (!isDown) return;
+      const x = e.touches[0].pageX - container.offsetLeft;
+      const walk = (x - startX) * 2;
+      container.scrollLeft = scrollLeft - walk;
+    }, { passive: true });
+  });
 }
 
 // Funcionalidad del menú hamburguesa

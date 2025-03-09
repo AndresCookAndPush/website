@@ -257,10 +257,55 @@ nav {
 .minigames-container,
 .characters-container,
 .games-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  position: relative;
+  display: flex;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
   gap: 30px;
-  padding: 20px;
+  padding: 20px 60px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Ocultar scrollbar para Chrome, Safari y Opera */
+.stories-container::-webkit-scrollbar,
+.minigames-container::-webkit-scrollbar,
+.characters-container::-webkit-scrollbar,
+.games-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Botones de navegación */
+.scroll-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: var(--light-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 10;
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.scroll-arrow:hover {
+  background-color: var(--secondary-color);
+  color: var(--light-color);
+}
+
+.scroll-arrow.left {
+  left: 10px;
+}
+
+.scroll-arrow.right {
+  right: 10px;
 }
 
 .story-card,
@@ -273,6 +318,9 @@ nav {
   box-shadow: 0 4px 15px var(--shadow-color);
   text-align: center;
   transition: transform 0.3s ease;
+  flex: 0 0 300px;
+  min-width: 300px;
+  max-width: 300px;
 }
 
 .story-card:hover,
@@ -675,9 +723,22 @@ footer {
   .minigames-container,
   .characters-container,
   .games-container {
-    grid-template-columns: 1fr;
-    gap: 15px;
-    padding: 15px;
+    padding: 10px 40px;
+  }
+
+  .story-card,
+  .minigame-card,
+  .character-card,
+  .game-card {
+    flex: 0 0 250px;
+    min-width: 250px;
+    max-width: 250px;
+  }
+
+  .scroll-arrow {
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
   }
 
   .content-section {
@@ -738,6 +799,36 @@ footer {
 
   .carousel-items {
     transform-origin: center center;
+  }
+
+  .stories-container,
+  .minigames-container,
+  .characters-container,
+  .games-container {
+    padding: 10px 30px;
+  }
+
+  .story-card,
+  .minigame-card,
+  .character-card,
+  .game-card {
+    flex: 0 0 200px;
+    min-width: 200px;
+    max-width: 200px;
+  }
+
+  .scroll-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+
+  .scroll-arrow.left {
+    left: 5px;
+  }
+
+  .scroll-arrow.right {
+    right: 5px;
   }
 
   .footer-content {
