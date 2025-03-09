@@ -1059,15 +1059,47 @@ header.header-hidden {
   .characters-container,
   .games-container {
     padding: 10px 30px;
+    overflow-x: auto;
+    overflow-y: hidden; /* Evitar scroll vertical */
   }
 
   .story-card,
   .minigame-card,
   .character-card,
   .game-card {
-    flex: 0 0 200px;
-    min-width: 200px;
-    max-width: 200px;
+    flex: 0 0 250px; /* Ancho fijo más ajustado para móvil */
+    min-width: 250px;
+    max-width: 250px;
+    margin-top: 100px; /* Reducir el margen superior */
+    padding-top: 100px; /* Reducir el padding superior */
+    height: auto; /* Permitir altura automática */
+  }
+  
+  .story-card img,
+  .minigame-card img,
+  .character-card img,
+  .game-card img {
+    width: 200px; /* Reducir tamaño de imagen */
+    height: 200px;
+    top: -100px; /* Ajustar posición */
+  }
+  
+  .story-card .card-content,
+  .minigame-card .card-content,
+  .character-card .card-content,
+  .game-card .card-content {
+    padding: 15px;
+    height: auto; /* Altura automática */
+    min-height: 180px; /* Altura mínima */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .play-button {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: fit-content; /* Asegurar que el botón no sea más ancho que su contenido */
+    align-self: center;
   }
 
   .scroll-arrow {
@@ -1083,57 +1115,7 @@ header.header-hidden {
   .scroll-arrow.right {
     right: 5px;
   }
-
-  .footer-content {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-  }
-
-  .social-links {
-    justify-content: center;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .welcome-message {
-    margin-top: 50px;
-  }
-
-  .cloud {
-    width: 100px;
-    height: 30px;
-  }
-
-  .cloud:before,
-  .cloud:after {
-    width: 50px;
-    height: 40px;
-  }
-
-  .cloud:after {
-    width: 60px;
-    height: 60px;
-    top: -27px;
-  }
-  
-  /* Improved mobile menu styling */
-  .menu li a {
-    font-size: 1.3rem;
-  }
-  
-  .menu-toggle {
-    top: 5px;
-    right: 15px;
-  }
-  
-  /* Ensure logo is visible in mobile view */
-  .logo img {
-    height: 35px;
-  }
+  // ... existing code ...
 }
 
 #sky-objects {
