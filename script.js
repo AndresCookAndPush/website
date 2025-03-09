@@ -211,14 +211,69 @@ function initializeHorizontalScrolls() {
   scrollContainers.forEach(container => {
     if (!container) return;
     
-    const leftArrow = container.querySelector('.scroll-arrow.left');
-    const rightArrow = container.querySelector('.scroll-arrow.right');
+    // Mover las flechas fuera del contenedor de scroll
+    const section = container.closest('.content-section');
+    if (!section) return;
+    
+    // Verificar si ya existen flechas en la sección
+    let leftArrow = section.querySelector('.scroll-arrow.left');
+    let rightArrow = section.querySelector('.scroll-arrow.right');
+    
+    // Si no existen, crearlas y añadirlas a la sección (fuera del contenedor de scroll)
+    if (!leftArrow) {
+      leftArrow = document.createElement('div');
+      leftArrow.className = 'scroll-arrow left';
+      leftArrow.innerHTML = '<i class="fas fa-chevron-left"></i>';
+      section.appendChild(leftArrow);
+    }
+    
+    if (!rightArrow) {
+      rightArrow = document.createElement('div');
+      rightArrow.className = 'scroll-arrow right';
+      rightArrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      section.appendChild(rightArrow);
+    }
+    
+    // Eliminar las flechas que estén dentro del contenedor
+    const innerLeftArrow = container.querySelector('.scroll-arrow.left');
+    const innerRightArrow = container.querySelector('.scroll-arrow.right');
+    if (innerLeftArrow) innerLeftArrow.remove();
+    if (innerRightArrow) innerRightArrow.remove();
+    
     const cards = container.querySelectorAll('.story-card, .minigame-card, .character-card, .game-card');
     
     if (!cards.length) return;
     
-    const cardWidth = cards[0].offsetWidth;
-    const scrollAmount = cardWidth + 30; // 30px es el gap entre tarjetas
+    // Ajustar el ancho de las tarjetas según el tamaño de la pantalla
+    function adjustCardWidths() {
+      const isMobile = window.innerWidth <= 768;
+      const cardWidth = cards[0].offsetWidth;
+      const scrollAmount = cardWidth + 30; // 30px es el gap entre tarjetas
+      
+      // En móviles y tablets, mostrar solo una tarjeta a la vez
+      if (isMobile) {
+        cards.forEach(card => {
+          card.style.flex = '0 0 100%';
+          card.style.minWidth = '100%';
+          card.style.maxWidth = '100%';
+        });
+      } else {
+        cards.forEach(card => {
+          card.style.flex = '0 0 300px';
+          card.style.minWidth = '300px';
+          card.style.maxWidth = '300px';
+        });
+      }
+      
+      return scrollAmount;
+    }
+    
+    let scrollAmount = adjustCardWidths();
+    
+    // Actualizar cuando cambie el tamaño de la ventana
+    window.addEventListener('resize', () => {
+      scrollAmount = adjustCardWidths();
+    });
     
     // Evento para el botón izquierdo
     leftArrow.addEventListener('click', () => {

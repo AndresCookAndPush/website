@@ -253,6 +253,11 @@ nav {
 }*/
 
 /* Secciones de contenido */
+.content-section {
+  position: relative;
+  padding: 30px 20px;
+}
+
 .stories-container,
 .minigames-container,
 .characters-container,
@@ -262,7 +267,8 @@ nav {
   overflow-x: hidden;
   scroll-behavior: smooth;
   gap: 30px;
-  padding: 20px 60px;
+  padding: 20px 0;
+  margin: 0 60px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
@@ -312,10 +318,8 @@ nav {
 .minigame-card,
 .character-card,
 .game-card {
-  background-color: var(--light-color);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
   text-align: center;
   transition: transform 0.3s ease;
   flex: 0 0 300px;
@@ -332,11 +336,26 @@ nav {
 
 .story-card img,
 .minigame-card img,
+.character-card img,
 .game-card img {
-  width: 100%;
+  width: 200px;
   height: 200px;
-  object-fit: cover;
-  margin-bottom: 15px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+}
+
+.story-card .card-content,
+.minigame-card .card-content,
+.character-card .card-content,
+.game-card .card-content {
+  background-color: var(--light-color);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .story-card h3,
@@ -345,7 +364,7 @@ nav {
 .game-card h3 {
   color: var(--secondary-color);
   margin-bottom: 10px;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 .story-card p,
@@ -353,7 +372,7 @@ nav {
 .character-card p,
 .game-card p {
   margin-bottom: 20px;
-  padding: 0 20px;
+  padding: 0 10px;
 }
 
 .play-button {
@@ -364,7 +383,9 @@ nav {
   font-weight: 600;
   display: inline-block;
   transition: background-color 0.3s ease;
-  margin-bottom: 20px;
+  margin-top: auto;
+  margin-bottom: 10px;
+  align-self: center;
 }
 
 .play-button:hover {
@@ -719,20 +740,26 @@ footer {
     object-fit: cover;
   }
 
+  .content-section {
+    position: relative;
+    padding: 20px 0;
+  }
+
   .stories-container,
   .minigames-container,
   .characters-container,
   .games-container {
-    padding: 10px 40px;
+    padding: 0;
+    margin: 0 50px;
   }
 
   .story-card,
   .minigame-card,
   .character-card,
   .game-card {
-    flex: 0 0 250px;
-    min-width: 250px;
-    max-width: 250px;
+    flex: 0 0 100%;
+    min-width: 100%;
+    max-width: 100%;
   }
 
   .scroll-arrow {
