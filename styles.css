@@ -117,15 +117,14 @@ nav {
 }
 
 /* Sección Hero y Carrusel */
-/* Actualizar el layout de la sección hero */
 .hero {
   display: flex;
-  justify-content: flex-start; /* Cambiado para alinear a la izquierda */
+  justify-content: flex-start;
   align-items: center;
   padding: 40px;
   min-height: 80vh;
   position: relative;
-  max-width: 100%; /* Cambiado para que ocupe todo el ancho */
+  max-width: 100%;
   margin: 0;
   overflow: hidden;
 }
@@ -159,15 +158,14 @@ nav {
 }
 
 /* Actualizar estilos del carrusel */
-/* Ajustar el contenedor del carrusel */
 .carousel-container {
-  position: absolute; /* Cambiado a absoluto */
-  right: 650px; /* Mover más a la derecha */
+  position: absolute;
+  right: 650px;
   top: 20%;
   transform: translateY(-50%);
-  width: 800px; /* Aumentar el ancho para que las esferas salgan por la derecha */
+  width: 800px;
   height: 800px;
-  padding-top: 150px; /* AJUSTAR: Aumenta este valor para bajar la posición */
+  padding-top: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -255,148 +253,37 @@ nav {
 }*/
 
 /* Secciones de contenido */
-/* Secciones de contenido */
-/* Ajustar el posicionamiento de las secciones */
-section {
-  padding-top: 80px; /* Esto crea un espacio para que el contenido no quede detrás del menú */
-  margin-top: -80px; /* Esto compensa el padding para que el scroll llegue al lugar correcto */
-}
-
-.content-section {
-  padding: 80px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.content-section h2 {
-  font-size: 2.5rem;
-  color: var(--secondary-color);
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-/* Episodios */
-.episodes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.episode-card {
-  background-color: var(--light-color);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  transition: transform 0.3s ease;
-}
-
-.episode-card:hover {
-  transform: translateY(-10px);
-}
-
-.episode-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.episode-card h3 {
-  padding: 15px 20px 5px;
-  color: var(--secondary-color);
-}
-
-.episode-card p {
-  padding: 0 20px 20px;
-}
-
-/* Manualidades */
-.activities-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-
-.activity-card {
-  background-color: var(--light-color);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  transition: transform 0.3s ease;
-}
-
-.activity-card:hover {
-  transform: translateY(-10px);
-}
-
-.activity-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.activity-card h3 {
-  padding: 15px 20px 5px;
-  color: var(--secondary-color);
-}
-
-.activity-card p {
-  padding: 0 20px 20px;
-}
-
-/* Personajes */
-.characters-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-}
-
-.character-card {
-  background-color: var(--light-color);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  text-align: center;
-  padding: 20px;
-  transition: transform 0.3s ease;
-}
-
-.character-card:hover {
-  transform: translateY(-10px);
-}
-
-.character-card img {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
-  margin-bottom: 15px;
-}
-
-.character-card h3 {
-  color: var(--secondary-color);
-  margin-bottom: 10px;
-}
-
-/* Juegos */
+.stories-container,
+.minigames-container,
+.characters-container,
 .games-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
+  padding: 20px;
 }
 
+.story-card,
+.minigame-card,
+.character-card,
 .game-card {
   background-color: var(--light-color);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 4px 15px var(--shadow-color);
   text-align: center;
-  padding-bottom: 20px;
   transition: transform 0.3s ease;
 }
 
+.story-card:hover,
+.minigame-card:hover,
+.character-card:hover,
 .game-card:hover {
   transform: translateY(-10px);
 }
 
+.story-card img,
+.minigame-card img,
 .game-card img {
   width: 100%;
   height: 200px;
@@ -404,11 +291,18 @@ section {
   margin-bottom: 15px;
 }
 
+.story-card h3,
+.minigame-card h3,
+.character-card h3,
 .game-card h3 {
   color: var(--secondary-color);
   margin-bottom: 10px;
+  padding: 0 20px;
 }
 
+.story-card p,
+.minigame-card p,
+.character-card p,
 .game-card p {
   margin-bottom: 20px;
   padding: 0 20px;
@@ -422,6 +316,7 @@ section {
   font-weight: 600;
   display: inline-block;
   transition: background-color 0.3s ease;
+  margin-bottom: 20px;
 }
 
 .play-button:hover {
@@ -501,8 +396,7 @@ footer {
   border-radius: 200px;
   animation: moveCloud linear infinite;
   z-index: -1;
-  top: 150px; /* AJUSTAR: Cambia este valor para mover las nubes más abajo */
-  left: -200px; /* Esto asegura que las nubes comiencen fuera de la pantalla */
+  left: -200px;
 }
 
 .cloud:before,
@@ -558,38 +452,274 @@ footer {
 
 /* Estilos para los botones de cambio de hora */
 .time-buttons {
+  display: none; /* Ocultamos los botones ya que ahora será automático */
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 1000;
 }
 
-.time-button {
-  padding: 10px 15px;
-  margin-left: 10px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+/* Estilos para el menú hamburguesa */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    z-index: 1001;
 }
 
-.time-button.morning {
-  background-color: #87ceeb;
-  color: #333;
-}
-
-.time-button.afternoon {
-  background-color: #ffa500;
-  color: #fff;
-}
-
-.time-button.night {
-  background-color: #d14d9a;
-  color: #fff;
+.menu-toggle .fa-times {
+    display: none;
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  header {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .welcome-message {
+    margin-left: 150px;
+    margin-top: -200px;
+    padding: 30px;
+    max-width: 400px;
+  }
+
+  .carousel-container {
+    right: 450px;
+    width: 600px;
+    height: 600px;
+  }
+}
+
 @media (max-width: 992px) {
+  body {
+    padding-top: 80px;
+  }
+
+  header {
+    border-radius: 15px;
+  }
+
+  .menu li a {
+    font-size: 1.2rem;
+    padding: 6px 12px;
+  }
+
+  .welcome-message {
+    margin-left: 50px;
+    margin-top: -150px;
+    padding: 25px;
+    max-width: 350px;
+  }
+
+  .welcome-message h1 {
+    font-size: 1.8em;
+  }
+
+  .carousel-container {
+    right: 300px;
+    width: 500px;
+    height: 500px;
+    padding-top: 100px;
+  }
+
+  .carousel-center {
+    width: 280px;
+    height: 280px;
+  }
+
+  .carousel-item {
+    width: 180px;
+    height: 180px;
+    margin-left: -90px;
+    margin-top: -90px;
+  }
+
+  .stories-container,
+  .minigames-container,
+  .characters-container,
+  .games-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 50px;
+  }
+
+  header {
+    padding: 15px;
+    margin: 0;
+    border-radius: 0;
+    border-bottom: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  nav {
+    gap: 0;
+  }
+
+  .menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--light-color);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+  }
+
+  .menu.active {
+    right: 0;
+  }
+
+  .menu.active + .menu-toggle .fa-bars {
+    display: none;
+  }
+
+  .menu.active + .menu-toggle .fa-times {
+    display: block;
+  }
+
+  .menu li a {
+    font-size: 1.3rem;
+    padding: 10px 20px;
+    display: block;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+
+  .hero {
+    flex-direction: column;
+    padding: 20px;
+    min-height: auto;
+    margin-bottom: 50px;
+    align-items: stretch;
+  }
+
+  .welcome-message {
+    margin: 0;
+    padding: 20px;
+    max-width: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 2;
+    margin-bottom: 20px;
+    margin-top: 0px;
+  }
+
+  .carousel-container {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    height: 400px;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .carousel-center {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+  }
+
+  .carousel-items {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    left: 0;
+    top: 0;
+  }
+
+  .carousel-item {
+    width: 100px;
+    height: 100px;
+    margin-left: -50px;
+    margin-top: -50px;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .stories-container,
+  .minigames-container,
+  .characters-container,
+  .games-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .content-section {
+    padding: 30px 15px;
+  }
+
+  .content-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+
+  .cloud {
+    width: 120px;
+    height: 36px;
+  }
+
+  .cloud:before,
+  .cloud:after {
+    width: 60px;
+    height: 48px;
+  }
+
+  .cloud:after {
+    width: 72px;
+    height: 72px;
+    top: -33px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: 50px;
+  }
+
+  .welcome-message h1 {
+    font-size: 1.5em;
+  }
+
+  .welcome-message p {
+    font-size: 1em;
+  }
+
   .carousel-container {
     height: 300px;
   }
@@ -600,81 +730,50 @@ footer {
   }
 
   .carousel-item {
+    width: 70px;
+    height: 70px;
+    margin-left: -35px;
+    margin-top: -35px;
+  }
+
+  .carousel-items {
+    transform-origin: center center;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .welcome-message {
+    margin-top: 30px;
+  }
+
+  .cloud {
     width: 100px;
-    height: 100px;
-    margin-left: -50px;
+    height: 30px;
   }
 
-  .carousel-item:nth-child(n) {
-    transform: rotate(calc(36deg * var(--i))) translateY(-140px) rotate(calc(-36deg * var(--i)));
-  }
-}
-
-@media (max-width: 768px) {
-  header {
-    padding: 10px;
+  .cloud:before,
+  .cloud:after {
+    width: 50px;
+    height: 40px;
   }
 
-  .menu {
-    gap: 15px;
-  }
-
-  .menu li a {
-    font-size: 1.2rem;
-    padding: 6px 12px;
-  }
-
-  .carousel-container {
-    height: 250px;
-  }
-
-  .carousel-center {
-    width: 120px;
-    height: 120px;
-  }
-
-  .carousel-item {
-    width: 80px;
-    height: 80px;
-    margin-left: -40px;
-  }
-
-  .carousel-item:nth-child(n) {
-    transform: rotate(calc(36deg * var(--i))) translateY(-120px) rotate(calc(-36deg * var(--i)));
-  }
-
-  .content-section h2 {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .menu li a {
-    font-size: 1rem;
-    padding: 5px 8px;
-  }
-
-  .carousel-container {
-    height: 200px;
-  }
-
-  .carousel-center {
-    width: 100px;
-    height: 100px;
-  }
-
-  .carousel-item {
+  .cloud:after {
     width: 60px;
     height: 60px;
-    margin-left: -30px;
-  }
-
-  .carousel-item:nth-child(n) {
-    transform: rotate(calc(36deg * var(--i))) translateY(-100px) rotate(calc(-36deg * var(--i)));
-  }
-
-  .content-section h2 {
-    font-size: 1.8rem;
+    top: -27px;
   }
 }
 
@@ -689,42 +788,5 @@ footer {
 }
 
 .horizontal-scroll {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  padding-bottom: 20px;
-}
-
-.story-card,
-.game-card {
-  flex: 0 200px 200px;
-  background-color: var(--light-color);
-  border-radius: 150px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px var(--shadow-color);
-  transition: transform 0.3s ease;
-  cursor: pointer;
-}
-
-.story-card:hover,
-.game-card:hover {
-  transform: translateY(-10px);
-}
-
-.story-card img,
-.game-card img {
-  width: 200%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.story-card h3,
-.game-card h3 {
-  padding: 0px 50px 5px;
-  color: var(--secondary-color);
-}
-
-.story-card p,
-.game-card p {
-  padding: 0 20px 20px;
+  display: none;
 }
