@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeCarousel()
   initializeAutoTimeChange()
   initializeSkyObjects()
-  initializeSectionCarousels()
 })
 
 function initializeCarousel() {
@@ -197,129 +196,6 @@ function createStars(container) {
     star.style.animationDelay = `${Math.random()}s`
     container.appendChild(star)
   }
-}
-
-function initializeSectionCarousels() {
-  const carouselSections = document.querySelectorAll('.carousel-section')
-  
-  carouselSections.forEach(section => {
-    const wrapper = section.querySelector('.carousel-wrapper')
-    const items = section.querySelector('.carousel-items')
-    const prevBtn = section.querySelector('.prev')
-    const nextBtn = section.querySelector('.next')
-    const itemWidth = 300 // Ancho aproximado de cada item + margen
-    
-    let isDragging = false
-    let startPosition = 0
-    let currentTranslate = 0
-    let prevTranslate = 0
-    
-    // Configurar botones de navegación
-    if (prevBtn && nextBtn && items) {
-      // Botón anterior
-      prevBtn.addEventListener('click', () => {
-        currentTranslate += itemWidth
-        // Limitar el desplazamiento hacia la izquierda
-        currentTranslate = Math.min(currentTranslate, 0)
-        items.style.transform = `translateX(${currentTranslate}px)`
-      })
-      
-      // Botón siguiente
-      nextBtn.addEventListener('click', () => {
-        const maxTranslate = -(items.scrollWidth - wrapper.clientWidth)
-        currentTranslate -= itemWidth
-        // Limitar el desplazamiento hacia la derecha
-        currentTranslate = Math.max(currentTranslate, maxTranslate)
-        items.style.transform = `translateX(${currentTranslate}px)`
-      })
-    }
-    
-    // Eventos táctiles para móviles
-    if (items) {
-      // Evento de inicio de arrastre
-      items.addEventListener('touchstart', (e) => {
-        isDragging = true
-        startPosition = e.touches[0].clientX
-        prevTranslate = currentTranslate
-        
-        // Detener la animación durante el arrastre
-        items.style.transition = 'none'
-      })
-      
-      // Evento de movimiento durante el arrastre
-      items.addEventListener('touchmove', (e) => {
-        if (!isDragging) return
-        
-        const currentPosition = e.touches[0].clientX
-        const diff = currentPosition - startPosition
-        currentTranslate = prevTranslate + diff
-        
-        // Aplicar el desplazamiento
-        items.style.transform = `translateX(${currentTranslate}px)`
-      })
-      
-      // Evento de fin de arrastre
-      items.addEventListener('touchend', () => {
-        isDragging = false
-        
-        // Restaurar la animación
-        items.style.transition = 'transform 0.5s ease'
-        
-        // Limitar el desplazamiento
-        const maxTranslate = -(items.scrollWidth - wrapper.clientWidth)
-        if (currentTranslate > 0) {
-          currentTranslate = 0
-        } else if (currentTranslate < maxTranslate) {
-          currentTranslate = maxTranslate
-        }
-        
-        items.style.transform = `translateX(${currentTranslate}px)`
-      })
-      
-      // Eventos de mouse para desktop
-      items.addEventListener('mousedown', (e) => {
-        isDragging = true
-        startPosition = e.clientX
-        prevTranslate = currentTranslate
-        
-        // Detener la animación durante el arrastre
-        items.style.transition = 'none'
-        
-        // Prevenir selección de texto durante el arrastre
-        e.preventDefault()
-      })
-      
-      window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return
-        
-        const currentPosition = e.clientX
-        const diff = currentPosition - startPosition
-        currentTranslate = prevTranslate + diff
-        
-        // Aplicar el desplazamiento
-        items.style.transform = `translateX(${currentTranslate}px)`
-      })
-      
-      window.addEventListener('mouseup', () => {
-        if (!isDragging) return
-        
-        isDragging = false
-        
-        // Restaurar la animación
-        items.style.transition = 'transform 0.5s ease'
-        
-        // Limitar el desplazamiento
-        const maxTranslate = -(items.scrollWidth - wrapper.clientWidth)
-        if (currentTranslate > 0) {
-          currentTranslate = 0
-        } else if (currentTranslate < maxTranslate) {
-          currentTranslate = maxTranslate
-        }
-        
-        items.style.transform = `translateX(${currentTranslate}px)`
-      })
-    }
-  })
 }
 
 // Funcionalidad del menú hamburguesa
