@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeSkyObjects()
   initializeHorizontalScrolls()
   initializeMenuToggle() // Add this line to initialize the menu toggle functionality
+  initializeSectionManagement()
 })
 
 function initializeCarousel() {
@@ -460,3 +461,170 @@ function initializeMenuToggle() {
     });
   });
 }
+
+// Configuración global del sitio
+const siteConfig = {
+  adminPanelVisible: true, // Controla si el engranaje de administración es visible
+  sections: {
+    personajes: {
+      enabled: false, // Cambiado a false para desactivar por defecto
+      spanish: 'personajes',
+      english: 'characters'
+    },
+    jugar: {
+      enabled: true, 
+      spanish: 'jugar',
+      english: 'play'
+    }
+  }
+};
+
+// Función para aplicar la configuración de visibilidad de secciones
+function applySectionVisibility() {
+  // Ocultar/mostrar secciones en base a la configuración
+  Object.keys(siteConfig.sections).forEach(sectionKey => {
+    const config = siteConfig.sections[sectionKey];
+    
+    // Secciones en español
+    const spanishSection = document.getElementById(config.spanish);
+    if (spanishSection) {
+      spanishSection.style.display = config.enabled ? 'block' : 'none';
+    }
+    
+    // Enlaces del menú en español
+    const spanishMenuItems = document.querySelectorAll(`.menu a[href="#${config.spanish}"]`);
+    spanishMenuItems.forEach(item => {
+      item.parentElement.style.display = config.enabled ? '' : 'none';
+    });
+    
+    // Secciones en inglés (en english.html)
+    // Esto solo afectará cuando se esté en la página en inglés
+    const englishSection = document.getElementById(config.english);
+    if (englishSection) {
+      englishSection.style.display = config.enabled ? 'block' : 'none';
+    }
+    
+    // Enlaces del menú en inglés
+    const englishMenuItems = document.querySelectorAll(`.menu a[href="#${config.english}"]`);
+    englishMenuItems.forEach(item => {
+      item.parentElement.style.display = config.enabled ? '' : 'none';
+    });
+  });
+  
+  // Centrar el menú después de aplicar los cambios
+  centerMenu();
+}
+
+// Función para centrar el menú cuando se ocultan elementos
+function centerMenu() {
+  const menuContainer = document.querySelector('.menu');
+  if (menuContainer) {
+    // Aseguramos que el menú tenga justificación centrada
+    menuContainer.style.justifyContent = 'center';
+  }
+}
+
+// Función para guardar la configuración en localStorage
+function saveConfig() {
+  localStorage.setItem('siteConfig', JSON.stringify(siteConfig));
+}
+
+// Función para cargar la configuración desde localStorage
+function loadConfig() {
+  const savedConfig = localStorage.getItem('siteConfig');
+  if (savedConfig) {
+    const parsedConfig = JSON.parse(savedConfig);
+    
+    // Actualizar adminPanelVisible si existe en la configuración guardada
+    if (parsedConfig.adminPanelVisible !== undefined) {
+      siteConfig.adminPanelVisible = parsedConfig.adminPanelVisible;
+    }
+    
+    // Actualizar configuración de secciones
+    if (parsedConfig.sections) {
+      Object.keys(parsedConfig.sections).forEach(key => {
+        if (siteConfig.sections[key] && parsedConfig.sections[key]) {
+          siteConfig.sections[key].enabled = parsedConfig.sections[key].enabled;
+        }
+      });
+    }
+  }
+}
+
+// Inicializar la gestión de secciones
+function initializeSectionManagement() {
+  // Cargar configuración guardada
+  loadConfig();
+  
+  // Aplicar la configuración cargada
+  applySectionVisibility();
+  
+  // Solo crear el panel de administración si está configurado como visible
+  if (siteConfig.adminPanelVisible) {
+    // Crear panel de administración
+    const adminPanel = document.createElement('div');
+    adminPanel.className = 'admin-panel';
+    adminPanel.innerHTML = `
+      <div class="admin-toggle" title="Configuración de secciones">⚙️</div>
+      <div class="admin-controls">
+        <h3>Configuración de secciones</h3>
+        <div class="section-toggle">
+          <label>
+            <input type="checkbox" id="toggle-personajes" ${siteConfig.sections.personajes.enabled ? 'checked' : ''}>
+            Mostrar sección PERSONAJES
+          </label>
+        </div>
+        <div class="section-toggle">
+          <label>
+            <input type="checkbox" id="toggle-jugar" ${siteConfig.sections.jugar.enabled ? 'checked' : ''}>
+            Mostrar sección JUGAR
+          </label>
+        </div>
+        <button id="save-section-config">Guardar</button>
+      </div>
+    `;
+    
+    document.body.appendChild(adminPanel);
+    
+    // Evento para mostrar/ocultar el panel de administración
+    const adminToggle = adminPanel.querySelector('.admin-toggle');
+    const adminControls = adminPanel.querySelector('.admin-controls');
+    
+    adminToggle.addEventListener('click', () => {
+      adminControls.classList.toggle('visible');
+    });
+    
+    // Eventos para los toggles
+    const togglePersonajes = document.getElementById('toggle-personajes');
+    const toggleJugar = document.getElementById('toggle-jugar');
+    
+    togglePersonajes.addEventListener('change', () => {
+      siteConfig.sections.personajes.enabled = togglePersonajes.checked;
+    });
+    
+    toggleJugar.addEventListener('change', () => {
+      siteConfig.sections.jugar.enabled = toggleJugar.checked;
+    });
+    
+    // Evento para guardar configuración
+    const saveButton = document.getElementById('save-section-config');
+    saveButton.addEventListener('click', () => {
+      saveConfig();
+      applySectionVisibility();
+      adminControls.classList.remove('visible');
+      alert('Configuración guardada');
+    });
+  }
+}
+
+// Para desactivar PERSONAJES
+siteConfig.sections.personajes.enabled = false;
+applySectionVisibility();
+
+// Para desactivar JUGAR
+siteConfig.sections.jugar.enabled = false;
+applySectionVisibility();
+
+siteConfig.adminPanelVisible = false;
+saveConfig(); // Guardar en localStorage
+// Requiere recargar la página para que el cambio surta efecto

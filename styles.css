@@ -121,6 +121,12 @@ nav {
   justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.menu li {
+  display: inline-flex;
 }
 
 .menu li a {
@@ -293,17 +299,17 @@ nav {
 .content-section h2 {
   color: var(--secondary-color);
   font-size: 5rem;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   position: relative;
   text-align: center;
   font-weight: 700;
   text-transform: uppercase;
   text-shadow: 2px 2px 4px var(--text-shadow-color, transparent);
   background-image: url('images/NormalClouds_Day.01.png');
-  background-size: 800px auto;
+  background-size: 1000px auto;
   background-repeat: no-repeat;
   background-position: center;
-  padding: 20px 0;
+  padding: 85px 0 20px 0;
   z-index: 1;
 }
 
@@ -326,7 +332,7 @@ nav {
   justify-content: center;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  padding-top: 120px; /* Añadir espacio para las imágenes que sobresalen */
+  padding-top: 60px;
 }
 
 /* Ocultar scrollbar para Chrome, Safari y Opera */
@@ -690,7 +696,17 @@ header.header-hidden {
   }
 
   .content-section h2 {
+    font-size: 3.5rem;
     background-size: 400px auto;
+    padding: 35px 0 15px 0; /* Ajustado para mantener la proporción */
+    margin-bottom: 25px; /* Reducido para mantener la proporción */
+  }
+
+  .stories-container,
+  .minigames-container,
+  .characters-container,
+  .games-container {
+    padding-top: 40px; /* Reducido para mantener la proporción */
   }
 }
 
@@ -1022,8 +1038,10 @@ header.header-hidden {
   }
   
   .content-section h2 {
-    font-size: 1.6em;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    background-size: 450px auto;
+    padding: 45px 0 10px 0; /* Ajustado para mantener la proporción */
+    margin-bottom: 20px; /* Reducido para mantener la proporción */
   }
 
   .welcome-message h1 {
@@ -1058,9 +1076,7 @@ header.header-hidden {
   .minigames-container,
   .characters-container,
   .games-container {
-    padding: 10px 30px;
-    overflow-x: auto;
-    overflow-y: hidden; /* Evitar scroll vertical */
+    padding-top: 30px; /* Reducido para mantener la proporción */
   }
 
   .story-card,
@@ -1115,7 +1131,11 @@ header.header-hidden {
   .scroll-arrow.right {
     right: 5px;
   }
-  // ... existing code ...
+}
+
+/* Ocultación de elementos no utilizados */
+.horizontal-scroll {
+  display: none;
 }
 
 #sky-objects {
@@ -1128,6 +1148,116 @@ header.header-hidden {
   z-index: -1;
 }
 
-.horizontal-scroll {
+/* Asegurar centrado incluso cuando se ocultan elementos */
+@media (min-width: 769px) {
+  nav {
+    justify-content: center;
+  }
+  
+  .logo {
+    position: absolute;
+    left: 20px;
+  }
+}
+
+/* Estilos para el panel de administración */
+.admin-panel {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.admin-toggle {
+  width: 40px;
+  height: 40px;
+  background-color: var(--secondary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.admin-toggle:hover {
+  transform: rotate(30deg);
+}
+
+.admin-controls {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  width: 300px;
   display: none;
+}
+
+.admin-controls.visible {
+  display: block;
+}
+
+.admin-controls h3 {
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.section-toggle {
+  margin-bottom: 10px;
+}
+
+.section-toggle label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.section-toggle input[type="checkbox"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+#save-section-config {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 600;
+  font-family: "Baloo 2", cursive;
+  transition: background-color 0.3s ease;
+}
+
+#save-section-config:hover {
+  background-color: #ff5252;
+}
+
+/* Responsive para el panel de administración */
+@media (max-width: 768px) {
+  .admin-controls {
+    width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-toggle {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+  
+  .admin-controls {
+    width: 220px;
+    padding: 15px;
+  }
 }
