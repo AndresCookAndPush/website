@@ -33,11 +33,14 @@ body {
 
 /* Estilos para los fondos según la hora del día */
 body.morning {
-  background: linear-gradient(180deg, 
+  /* background: linear-gradient(180deg, 
     #9edfff  0%, 
     #a5d9ff 15%, 
     #ffd88c  40%, 
-    #ffb06b 100%);
+    #ffb06b 100%); */
+    background: linear-gradient(180deg, 
+    #bae8ff  30%, 
+    #fdb8be 70%);
   --cloud-color: rgba(255, 255, 255, 0.8);
   --text-shadow-color: rgba(0, 0, 0, 0.2);
 }
@@ -103,17 +106,37 @@ nav {
 
 /* Actualizar estilos del logo */
 .logo {
-  transition: transform 0.3s ease;
-  margin-right: auto;
   z-index: 1002;
+  display: flex;
+  align-items: center;
 }
 
-.logo:hover {
+.logo > a {
+  transition: transform 0.3s ease;
+}
+
+.logo > a:hover {
   transform: scale(1.2);
+  display: block;
 }
 
 .logo img {
   height: 60px;
+}
+
+/* Estilos para el logo de Toybook */
+.toybook-logo {
+  z-index: 1002;
+  margin-left: 10px;
+  margin-right: auto;
+  pointer-events: none;
+}
+
+.toybook-logo img {
+  height: 60px;
+  margin-left: 30px;
+  margin-top: 10px;
+  pointer-events: none;
 }
 
 .menu {
@@ -568,7 +591,7 @@ footer {
 
 @keyframes moveCloud {
   0% {
-    transform: translateX(0) scale(var(--cloud-scale, 1));
+    transform: translateX(-200px) scale(var(--cloud-scale, 1)); /* Empezar más a la izquierda (-200px en lugar de 0) */
   }
   100% {
     transform: translateX(calc(100vw + 600px)) scale(var(--cloud-scale, 1)); /* Extendemos la distancia para mejor distribución */
@@ -606,13 +629,13 @@ footer {
 
 /* Estilos para el menú hamburguesa */
 .menu-toggle {
-    display: none;
+    display: block;
     cursor: pointer;
     font-size: 1.5rem;
     color: var(--secondary-color);
     position: absolute;
     top: 10px;
-    right: 20px;
+    right: 15px;
     z-index: 1001;
 }
 
@@ -682,17 +705,56 @@ header.header-hidden {
 }
 
 @media (max-width: 768px) {
-  .menu-logo {
-    display: block;
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1002;
+  body {
+    padding-top: 50px;
   }
-  
-  .menu-logo img {
-    height: 50px;
+
+  header {
+    margin: 0;
+    padding: 5px 15px;
+    border-radius: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  nav {
+    padding: 0;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .logo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    z-index: 1002;
+    margin-right: auto;
+    gap: 5px;
+    height: 100%;
+  }
+
+  .logo img {
+    height: 25px;
+    width: auto;
+    margin-top: 10px;
+  }
+
+  .toybook-logo {
+    margin: 0;
+    height: 100%;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .toybook-logo img {
+    height: 25px;
+    width: auto;
+    margin: 0;
+    margin-top: -2px;
   }
 
   .content-section h2 {
@@ -749,7 +811,7 @@ header.header-hidden {
     margin-left: 50px;
     margin-top: -150px;
     padding: 25px;
-    max-width: 350px;
+    max-width: 300px;
   }
 
   .welcome-message h1 {
@@ -782,6 +844,19 @@ header.header-hidden {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .toybook-logo img {
+    height: 50px;
   }
 }
 
@@ -856,8 +931,21 @@ header.header-hidden {
 
   .logo {
     position: relative;
-    margin-right: 0;
     z-index: 1002;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    height: 40px;
+  }
+  
+  .toybook-logo {
+    margin-left: 8px;
+  }
+  
+  .toybook-logo img {
+    height: 48px;
   }
 
   .menu {
@@ -907,10 +995,6 @@ header.header-hidden {
     display: block;
     color: var(--light-color);
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-  }
-
-  .logo img {
-    height: 40px;
   }
 
   .hero {
@@ -1131,6 +1215,21 @@ header.header-hidden {
   .scroll-arrow.right {
     right: 5px;
   }
+  
+  /* Ajustes para los logos en móvil pequeño */
+  .logo img {
+    height: 32px;
+  }
+  
+  .toybook-logo {
+    margin-left: 5px;
+    margin-bottom: -50px;
+  }
+  
+  .toybook-logo img {
+    height: 40px;
+    margin-bottom: 60px;
+  }
 }
 
 /* Ocultación de elementos no utilizados */
@@ -1148,7 +1247,7 @@ header.header-hidden {
   z-index: -1;
 }
 
-/* Asegurar centrado incluso cuando se ocultan elementos */
+/* Asegurar centrado incluso cuando se ocantan elementos */
 @media (min-width: 769px) {
   nav {
     justify-content: center;

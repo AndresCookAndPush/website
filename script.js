@@ -172,21 +172,25 @@ function updateSkyObjects(time) {
 }
 
 function createClouds(container) {
-  // Reducimos el número de nubes para que no se superpongan tanto
-  const cloudCount = 5
-  // Aumentamos la duración para un movimiento más suave y lento
-  const minDuration = 60
+  // Aumentamos el número de nubes
+  const cloudCount = 15
+  // Ajustamos la duración para un movimiento más suave y lento
+  const minDuration = 30
   const maxDuration = 120
   // Distribuir las nubes verticalmente a lo largo de toda la página
   const screenHeight = Math.max(window.innerHeight, document.body.scrollHeight)
   const sectionHeight = screenHeight / cloudCount
   
+  // Offset inicial para evitar que las nubes aparezcan detrás del menú
+  const initialOffset = 150 // Ajustar este valor según la altura de tu menú
+
   for (let i = 0; i < cloudCount; i++) {
     const cloud = document.createElement("div")
     cloud.className = "cloud"
     
     // Posicionamiento vertical distribuido en secciones para evitar superposición
-    const sectionTop = i * sectionHeight
+    // Añadimos initialOffset para que no aparezcan tan arriba
+    const sectionTop = i * sectionHeight + initialOffset
     const randomOffset = Math.random() * (sectionHeight * 0.8)
     cloud.style.top = `${sectionTop + randomOffset}px`
     
@@ -197,8 +201,9 @@ function createClouds(container) {
     // Velocidad variable para más naturalidad
     cloud.style.animationDuration = `${minDuration + Math.random() * (maxDuration - minDuration)}s`
     
-    // Distribuir el inicio horizontal de las nubes
-    cloud.style.animationDelay = `${Math.random() * maxDuration}s`
+    // Distribuir el inicio horizontal de las nubes - ajustado para que aparezcan antes
+    // Multiplicamos por 0.5 para que empiecen más cerca del borde izquierdo
+    cloud.style.animationDelay = `${Math.random() * maxDuration * 0.5}s`
     
     // Ajustar la opacidad de forma aleatoria para dar sensación de profundidad
     cloud.style.opacity = 0.4 + Math.random() * 0.6
@@ -251,7 +256,6 @@ function initializeHorizontalScrolls() {
     
     const cards = container.querySelectorAll('.story-card, .minigame-card, .character-card, .game-card');
     
-    // Nueva lógica de centrado estilo Bluey
     // Si hay más de 3 elementos, solo mostramos 3 a la vez
     // Si hay menos de 3, los mostramos todos centrados
     function getMaxVisibleCards() {
