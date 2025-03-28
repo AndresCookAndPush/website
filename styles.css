@@ -270,6 +270,13 @@ nav {
   z-index: 3; /* Poner encima de las esferas */
 }
 
+/* Estilos para elementos desactivados en el carrusel */
+.carousel-item.disabled-item {
+  display: none;
+  pointer-events: none;
+  opacity: 0;
+}
+
 /* Posiciones iniciales de los items */
 /*.carousel-item:nth-child(1) {
   transform: rotate(0deg) translateY(-180px) rotate(0deg);
@@ -1319,5 +1326,52 @@ header.header-hidden {
   .admin-controls {
     width: 220px;
     padding: 15px;
+  }
+}
+
+/* Estilos específicos para el panel de administración del carrusel */
+.admin-panel .admin-controls {
+  bottom: 60px;
+}
+
+.admin-panel .admin-controls h3 {
+  margin-bottom: 15px;
+  color: var(--secondary-color);
+}
+
+#apply-carousel-changes {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 600;
+  font-family: "Baloo 2", cursive;
+  transition: background-color 0.3s ease;
+}
+
+#apply-carousel-changes:hover {
+  background-color: var(--accent-color);
+}
+
+.success-message {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+@media (max-width: 480px) {
+  .admin-panel .admin-controls {
+    width: 220px;
+  }
+  
+  .admin-panel .admin-controls h3 {
+    font-size: 1rem;
+  }
+  
+  #apply-carousel-changes {
+    padding: 6px 12px;
+    font-size: 0.9rem;
   }
 }

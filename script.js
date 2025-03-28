@@ -1,17 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
+  loadCarouselConfig(); // Cargar configuración del carrusel primero
   initializeCarousel()
   initializeAutoTimeChange()
   initializeSkyObjects()
   initializeHorizontalScrolls()
   initializeMenuToggle() // Add this line to initialize the menu toggle functionality
   initializeSectionManagement()
+  initializeCarouselAdmin() // Inicializar el panel de admin del carrusel
+  applyCarouselConfig() // Aplicar configuración del carrusel después de todo
 })
 
 function initializeCarousel() {
   const carousel = document.querySelector(".carousel-container")
   if (!carousel) return
 
-  const items = document.querySelectorAll(".carousel-item")
+  // Seleccionar solo los elementos activos (no desactivados)
+  const items = document.querySelectorAll(".carousel-item:not(.disabled-item)")
   let currentRotation = 0
   const rotationStep = 0.2
   let radius = calculateRadius() // Nuevo método para calcular el radio
@@ -34,8 +38,13 @@ function initializeCarousel() {
 
   function updateItemsPositions() {
     const screenWidth = window.innerWidth
+    
+    // Calcular el ángulo basado en el número de elementos activos
+    const activeItemCount = items.length
+    const angleStep = 360 / activeItemCount
+    
     items.forEach((item, index) => {
-      const angle = (index * 36 + currentRotation) * (Math.PI / 180)
+      const angle = (index * angleStep + currentRotation) * (Math.PI / 180)
       const x = Math.cos(angle) * radius
       const y = Math.sin(angle) * radius
 
@@ -102,7 +111,11 @@ function initializeCarousel() {
 
   items.forEach((item) => {
     item.addEventListener("click", () => {
-      currentRotation += 36
+      // Calcular el nuevo paso de rotación basado en el número de elementos activos
+      const activeItemCount = items.length
+      const angleStep = 360 / activeItemCount
+      
+      currentRotation += angleStep
       updateItemsPositions()
     })
   })
@@ -116,6 +129,47 @@ function initializeCarousel() {
   // Inicializar
   updateItemsPositions()
   rotateCarousel()
+}
+
+// Función para activar o desactivar un elemento del carrusel
+function toggleCarouselItem(itemNumber) {
+  // Buscar el elemento correspondiente (itemNumber debería ser 2 u 8 para nuestro caso)
+  const carouselItems = document.querySelectorAll(".carousel-item")
+  const targetIndex = itemNumber - 1 // Convertir a índice basado en 0
+  
+  if (targetIndex >= 0 && targetIndex < carouselItems.length) {
+    const item = carouselItems[targetIndex]
+    
+    // Alternar la clase disabled-item
+    item.classList.toggle("disabled-item")
+    
+    // Reinicializar el carrusel para ajustar la distribución de los elementos
+    initializeCarousel()
+    
+    // Devuelve el estado actual (verdadero = activado, falso = desactivado)
+    return !item.classList.contains("disabled-item")
+  }
+  
+  return false
+}
+
+// Funciones auxiliares para activar/desactivar elementos específicos
+function enableStory2() {
+  return toggleCarouselItem(2)
+}
+
+function enableStory8() {
+  return toggleCarouselItem(8)
+}
+
+function disableStory2() {
+  const result = toggleCarouselItem(2)
+  return !result  // Invertir el resultado porque queremos saber si se desactivó
+}
+
+function disableStory8() {
+  const result = toggleCarouselItem(8)
+  return !result  // Invertir el resultado
 }
 
 function initializeAutoTimeChange() {
@@ -632,3 +686,210 @@ applySectionVisibility();
 siteConfig.adminPanelVisible = false;
 saveConfig(); // Guardar en localStorage
 // Requiere recargar la página para que el cambio surta efecto
+
+// Configuración global del carrusel
+const carouselConfig = {
+  carouselAdminVisible: false, // Controla si el engranaje del carrusel es visible
+  carouselItems: {
+    story2: {
+      enabled: false // Por defecto está desactivado (disabled-item)
+    },
+    story8: {
+      enabled: false // Por defecto está desactivado (disabled-item)
+    }
+  }
+};
+
+// Función para guardar configuración del carrusel en localStorage
+function saveCarouselConfig() {
+  localStorage.setItem('carouselConfig', JSON.stringify(carouselConfig));
+}
+
+// Función para cargar configuración del carrusel desde localStorage
+function loadCarouselConfig() {
+  const savedConfig = localStorage.getItem('carouselConfig');
+  if (savedConfig) {
+    const parsedConfig = JSON.parse(savedConfig);
+    
+    // Actualizar adminPanelVisible si existe en la configuración guardada
+    if (parsedConfig.carouselAdminVisible !== undefined) {
+      carouselConfig.carouselAdminVisible = parsedConfig.carouselAdminVisible;
+    }
+    
+    // Actualizar configuración de elementos del carrusel
+    if (parsedConfig.carouselItems) {
+      if (parsedConfig.carouselItems.story2 && parsedConfig.carouselItems.story2.enabled !== undefined) {
+        carouselConfig.carouselItems.story2.enabled = parsedConfig.carouselItems.story2.enabled;
+      }
+      
+      if (parsedConfig.carouselItems.story8 && parsedConfig.carouselItems.story8.enabled !== undefined) {
+        carouselConfig.carouselItems.story8.enabled = parsedConfig.carouselItems.story8.enabled;
+      }
+    }
+  }
+}
+
+// Función para aplicar la configuración del carrusel
+function applyCarouselConfig() {
+  // Mostrar/ocultar panel de administración del carrusel
+  const adminPanel = document.querySelector('.admin-panel');
+  if (adminPanel) {
+    adminPanel.style.display = carouselConfig.carouselAdminVisible ? 'block' : 'none';
+  }
+  
+  // Aplicar estado de story2
+  const story2Item = document.querySelectorAll('.carousel-item')[1]; // El segundo elemento (índice 1)
+  if (story2Item) {
+    if (carouselConfig.carouselItems.story2.enabled) {
+      story2Item.classList.remove('disabled-item');
+    } else {
+      story2Item.classList.add('disabled-item');
+    }
+  }
+  
+  // Aplicar estado de story8
+  const story8Item = document.querySelectorAll('.carousel-item')[7]; // El octavo elemento (índice 7)
+  if (story8Item) {
+    if (carouselConfig.carouselItems.story8.enabled) {
+      story8Item.classList.remove('disabled-item');
+    } else {
+      story8Item.classList.add('disabled-item');
+    }
+  }
+  
+  // Reinicializar el carrusel para que se ajuste a los elementos visibles
+  initializeCarousel();
+}
+
+// Funciones para controlar desde código backend
+function hideCarouselAdminPanel() {
+  carouselConfig.carouselAdminVisible = false;
+  saveCarouselConfig();
+  applyCarouselConfig();
+  return true;
+}
+
+function showCarouselAdminPanel() {
+  carouselConfig.carouselAdminVisible = true;
+  saveCarouselConfig();
+  applyCarouselConfig();
+  return true;
+}
+
+function setStory2Enabled(isEnabled) {
+  carouselConfig.carouselItems.story2.enabled = !!isEnabled; // Convertir a booleano
+  saveCarouselConfig();
+  applyCarouselConfig();
+  return carouselConfig.carouselItems.story2.enabled;
+}
+
+function setStory8Enabled(isEnabled) {
+  carouselConfig.carouselItems.story8.enabled = !!isEnabled; // Convertir a booleano
+  saveCarouselConfig();
+  applyCarouselConfig();
+  return carouselConfig.carouselItems.story8.enabled;
+}
+
+// Panel de admin para el carrusel
+function initializeCarouselAdmin() {
+  const adminToggle = document.querySelector('.admin-toggle');
+  const adminControls = document.querySelector('.admin-controls');
+  const applyButton = document.getElementById('apply-carousel-changes');
+  const toggleStory2 = document.getElementById('toggle-story2');
+  const toggleStory8 = document.getElementById('toggle-story8');
+  
+  // Verificar si los elementos están habilitados actualmente y actualizar checkboxes
+  function updateCheckboxes() {
+    if (toggleStory2) {
+      toggleStory2.checked = carouselConfig.carouselItems.story2.enabled;
+    }
+    
+    if (toggleStory8) {
+      toggleStory8.checked = carouselConfig.carouselItems.story8.enabled;
+    }
+  }
+  
+  // Mostrar/ocultar panel de admin
+  if (adminToggle) {
+    adminToggle.addEventListener('click', () => {
+      if (adminControls) {
+        adminControls.classList.toggle('visible');
+        // Actualizar estado de los checkboxes cuando se abre el panel
+        if (adminControls.classList.contains('visible')) {
+          updateCheckboxes();
+        }
+      }
+    });
+  }
+  
+  // Aplicar cambios de estado del carrusel
+  if (applyButton) {
+    applyButton.addEventListener('click', () => {
+      let needsRefresh = false;
+      
+      // Story 2
+      if (toggleStory2) {
+        const isCurrentlyEnabled = carouselConfig.carouselItems.story2.enabled;
+        
+        if (isCurrentlyEnabled !== toggleStory2.checked) {
+          // Solo cambiar si el estado ha cambiado
+          carouselConfig.carouselItems.story2.enabled = toggleStory2.checked;
+          needsRefresh = true;
+        }
+      }
+      
+      // Story 8
+      if (toggleStory8) {
+        const isCurrentlyEnabled = carouselConfig.carouselItems.story8.enabled;
+        
+        if (isCurrentlyEnabled !== toggleStory8.checked) {
+          // Solo cambiar si el estado ha cambiado
+          carouselConfig.carouselItems.story8.enabled = toggleStory8.checked;
+          needsRefresh = true;
+        }
+      }
+      
+      // Si hubo cambios, guardar y aplicar la configuración
+      if (needsRefresh) {
+        saveCarouselConfig();
+        applyCarouselConfig();
+        
+        // Notificar al usuario que los cambios se aplicaron
+        const successMessage = document.createElement('div');
+        successMessage.className = 'success-message';
+        successMessage.textContent = document.documentElement.lang === 'es' 
+          ? 'Cambios aplicados correctamente' 
+          : 'Changes applied successfully';
+        
+        successMessage.style.position = 'fixed';
+        successMessage.style.bottom = '70px';
+        successMessage.style.left = '20px';
+        successMessage.style.backgroundColor = '#4CAF50';
+        successMessage.style.color = 'white';
+        successMessage.style.padding = '10px 20px';
+        successMessage.style.borderRadius = '5px';
+        successMessage.style.zIndex = '2000';
+        
+        document.body.appendChild(successMessage);
+        
+        // Eliminar el mensaje después de 3 segundos
+        setTimeout(() => {
+          successMessage.style.opacity = '0';
+          successMessage.style.transition = 'opacity 0.5s ease';
+          
+          setTimeout(() => {
+            document.body.removeChild(successMessage);
+          }, 500);
+        }, 3000);
+      }
+      
+      // Ocultar el panel después de aplicar los cambios
+      if (adminControls) {
+        adminControls.classList.remove('visible');
+      }
+    });
+  }
+  
+  // Inicialización
+  updateCheckboxes();
+}

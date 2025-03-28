@@ -64,7 +64,7 @@
                                 <img src="images/book-icon.png" alt="Libro">
                             </div>
                         </div>
-                        <div class="carousel-item">
+                        <div class="carousel-item disabled-item">
                             <img src="images/story2.png" alt="Historia 2">
                             <div class="carousel-icon">
                                 <img src="images/abc-icon.png" alt="ABC">
@@ -100,7 +100,7 @@
                                 <img src="images/book-icon.png" alt="Libro">
                             </div>
                         </div>
-                        <div class="carousel-item">
+                        <div class="carousel-item disabled-item">
                             <img src="images/story8.png" alt="Historia 8">
                             <div class="carousel-icon">
                                 <img src="images/abc-icon.png" alt="ABC">
@@ -335,6 +335,27 @@
             <p class="copyright">© 2025 TiBO. Todos los derechos reservados.</p>
         </div>
     </footer>
+
+    <!-- Panel de administración para activar/desactivar elementos del carrusel -->
+    <div class="admin-panel">
+        <div class="admin-toggle" title="Panel de administración">
+            <i class="fas fa-cog"></i>
+        </div>
+        <div class="admin-controls">
+            <h3>Gestión del Carrusel</h3>
+            <div class="section-toggle">
+                <label>
+                    <input type="checkbox" id="toggle-story2"> Activar Historia 2
+                </label>
+            </div>
+            <div class="section-toggle">
+                <label>
+                    <input type="checkbox" id="toggle-story8"> Activar Historia 8
+                </label>
+            </div>
+            <button id="apply-carousel-changes">Aplicar cambios</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
