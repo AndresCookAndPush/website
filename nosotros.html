@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
+    <meta name="supported-color-schemes" content="light">
+    <title>Nosotros - TiBO</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="images/tibo-logo.png" type="image/png">
+    <link rel="shortcut icon" href="images/tibo-logo.png" type="image/png">
+    <style>
+        /* Estilos específicos para la página Nosotros */
+        .team-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .team-member {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        /* Miembros de la primera fila (más grandes) */
+        .team-member.first-row {
+            flex: 0 0 320px;
+            min-width: 320px;
+            max-width: 320px;
+        }
+        
+        /* Miembros de la segunda fila */
+        .team-member.second-row {
+            flex: 0 0 260px;
+            min-width: 260px;
+            max-width: 260px;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+        
+        .team-member:hover .member-content {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .team-member:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Contenedor para la imagen, controla altura y alineación */
+        .image-container {
+            height: 250px; /* AJUSTABLE: Altura fija para alinear las cajas de texto de abajo. Modifica este valor si es necesario */
+            display: flex;
+            align-items: flex-end; /* Empuja la imagen hacia abajo */
+            justify-content: center; /* Centra la imagen horizontalmente */
+            margin-bottom: -15px; /* AJUSTABLE: Valor negativo para que la imagen 'toque' o se superponga ligeramente al recuadro blanco. Ajusta según necesites */
+            position: relative; /* Añadido para asegurar que z-index funcione */
+            z-index: 2; /* Asegura que la imagen esté sobre el posible fondo del contenedor padre */
+        }
+
+        .team-member img {
+            width: 70%; /* AJUSTABLE: Ancho de la imagen relativo al .image-container */
+            height: auto;
+            object-fit: contain;
+            /* border-radius y box-shadow eliminados de la imagen principal */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 auto; /* Mantiene el centrado horizontal */
+            max-height: 100%; /* Asegura que la imagen no exceda la altura del contenedor */
+        }
+        
+        /* Clase para mostrar la imagen ampliada (mantiene estilos visuales) */
+        .team-member img.show-full {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 10px; /* Mantenemos borde redondeado para la vista ampliada */
+            z-index: 1000;
+            object-fit: contain;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); /* Mantenemos sombra para la vista ampliada */
+        }
+
+        .team-member .member-content {
+            padding: 20px;
+            padding-top: 35px; /* AJUSTABLE: Padding superior para compensar la superposición de la imagen. Ajusta con margin-bottom de .image-container */
+            display: flex;
+            background-color: #ffffff;
+            border-radius: 20px;
+            flex-direction: column;
+            height: auto; 
+            min-height: 200px; /* AJUSTABLE: Altura mínima para las cajas de texto */
+            justify-content: flex-start;
+            overflow-y: hidden; /* Cambiado a hidden para evitar scrollbars si el texto es muy largo y la altura mínima es fija */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 0;
+            position: relative; /* Necesario para que el z-index funcione si es necesario */
+            z-index: 1; /* Asegura que el contenido esté detrás de la imagen si se solapan */
+        }
+
+        .team-member h3 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            padding: 0 10px;
+            font-size: 1.5rem;
+        }
+
+        .team-member p {
+            margin-bottom: 20px;
+            padding: 0 10px;
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+
+        .studio-logo {
+            max-width: 300px;
+            margin: 0 auto 30px;
+            display: block;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener todas las imágenes de los miembros del equipo
+            const teamImages = document.querySelectorAll('.team-image');
+            
+            // Añadir evento de clic a cada imagen
+            teamImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    // Alternar la clase para mostrar la imagen completa
+                    this.classList.toggle('show-full');
+                });
+            });
+        });
+    </script>
+</head>
+<body class="morning">
+    <div class="time-buttons">
+        <button class="time-button morning" data-time="morning">Mañana</button>
+        <button class="time-button afternoon" data-time="afternoon">Tarde</button>
+        <button class="time-button night" data-time="night">Noche</button>
+    </div>
+
+    <div id="sky-objects"></div>
+
+    <header>
+        <nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/tibo-logo.png" alt="TiBO Logo">
+                </a>
+                <div class="toybook-logo">
+                    <img src="images/Logotipo_Toybook_Web.png" alt="Toybook Logo">
+                </div>
+            </div>
+            <ul class="menu">
+                <li><a href="index.html">inicio</a></li>
+                <li><a href="index.html#cuentos">cuentos</a></li>
+                <li><a href="index.html#minijuegos">minijuegos</a></li>
+                <li><a href="english.html">english</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="nosotros" class="content-section">
+            <h2>Nuestro Equipo</h2>
+            <!-- <img src="nosotros/Logo.png" alt="Logo del Estudio" class="studio-logo"> -->
+            <div class="team-container">
+                <!-- Primera fila: Julio - Ian - Fran -->
+                <div class="team-member first-row">
+                    <div class="image-container">
+                        <img src="nosotros/Julio.PNG" alt="Julio" class="team-image">
+                    </div>
+                    <div class="member-content">
+                        <h3>Julio</h3>
+                        <p>Artista, es el herrero de nuestro reino. Con su fuerza y dedicación, forja los cimientos de nuestra oficina, asegurándose de que todo esté en orden y que el equipo disponga de las herramientas necesarias para brillar. Cada martillazo suyo es un paso más hacia la solidez de nuestro sueño.</p>
+                    </div>
+                </div>
+                <div class="team-member first-row">
+                    <div class="image-container">
+                        <img src="nosotros/Ian.PNG" alt="Ian" class="team-image">
+                    </div>
+                    <div class="member-content">
+                        <h3>Ian</h3>
+                        <p>Nuestro CEO, es el chef que tuvo la idea original, la visión de transformar la lectura en algo delicioso. Ian es el motor que impulsa el proyecto, buscando siempre la manera de que todo salga adelante, reuniendo al equipo y asegurándose de que tengamos las herramientas... ¡y las risas! Porque sí, es un bromista, pero su energía y dedicación son el fuego que mantiene nuestra cocina creativa siempre encendida.</p>
+                    </div>
+                </div>
+                <div class="team-member first-row">
+                    <div class="image-container">
+                        <img src="nosotros/Fran.PNG" alt="Fran" class="team-image">
+                    </div>
+                    <div class="member-content">
+                        <h3>Fran</h3>
+                        <p>Nuestro productor, siempre ha sido un devorador de libros. Desde pequeño, lo encontrabas con un libro en la mano, perdido en mil aventuras, soñando con dragones, piratas y mundos lejanos. Él ha sido el capitán en este viaje, guiándonos con su pasión por la lectura.</p>
+                    </div>
+                </div>
+                <!-- Segunda fila: Andres - Margarita - Lilith - Dani -->
+                <div class="team-member second-row">
+                    <div class="image-container">
+                        <img src="nosotros/Andres.PNG" alt="Andres" class="team-image">
+                    </div>
+                    <div class="member-content">
+                        <h3>Andres</h3>
+                        <p>Nuestro diseñador de juegos, es el arquitecto de nuestros mundos interactivos. Con su imaginación desbordante, crea mecánicas divertidas que complementan cada historia. Desde niño construía laberintos de cartón para sus amigos, y ahora diseña experiencias digitales que invitan a los pequeños lectores a sumergirse en cada aventura.</p>
+                    </div>
+                </div>
+                <div class="team-member second-row">
+                    <div class="image-container">
+                        <img src="nosotros/Margot.PNG" alt="Margarita" class="team-image">
+                    </div>
+                    <div class="member-content">
+                        <h3>Margarita</h3>
+                        <p>Nuestra ilustradora, siempre tuvo lápices de colores en una mano y un libro en la otra. Su favorito era <em>Kika Superbruja</em> y sus dibujos están llenos de los colores y la magia que ella veía en esas páginas. Cada ilustración que ella crea es un pedacito de su infancia.</p>
+                    </div>
+                </div>
+                <div class="team-member second-row">
+                    <div class="image-container">
+                        <img src="nosotros/Lilith.PNG" alt="Lilith" class="team-image">
+                    </div>
+                    <div class="member-content">
+                        <h3>Lilith</h3>
+                        <p>Nuestra programadora, nació con una calculadora bajo el brazo y un corazón lleno de lógica. Apasionada de las matemáticas, es la dragona sabia que mueve los hilos detrás de escena, haciendo que cada cuento cobre vida en la pantalla con su aliento de código. Gracias a ella, los niños pueden tocar, explorar y sumergirse en nuestras historias.</p>
+                    </div>
+                </div>
+                <div class="team-member second-row">
+                    <div class="image-container">
+                        <img src="nosotros/Dani.PNG" alt="Dani" class="team-image">
+                    </div>
+                    <div class="member-content">
+                        <h3>Dani</h3>
+                        <p>Nuestro animador, es el caballero de nuestro equipo. Pone sonidos, crea animaciones y da vida a los personajes. Desde pequeño, le encantaba inventar efectos especiales para sus juegos y ahora, con su espada de creatividad, consigue que cada cuento sea una experiencia inolvidable.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="images/tibo-logo.png" alt="TiBO Logo">
+                <a href="nosotros.html"><img src="nosotros/Logo.png" alt="Logo del Estudio" style="height: 50px; margin-left: 20px;"></a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="https://sites.google.com/view/toybook-privacypolicy/inicio" target="_blank">Política de Privacidad</a>
+                <a href="https://sites.google.com/view/toybook-termsanduseconditions/inicio" target="_blank">Términos y Condiciones</a>
+                <!-- <a href="nosotros.html">Nosotros</a> -->
+            </div>
+            <p class="copyright">© 2025 TiBO. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
