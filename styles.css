@@ -124,6 +124,16 @@ nav {
   height: 60px;
 }
 
+/* Estilos para el logo del estudio en el footer */
+.footer-logo a {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.footer-logo a:hover {
+  transform: scale(1.2);
+}
+
 /* Estilos para el logo de Toybook */
 .toybook-logo {
   z-index: 1002;
