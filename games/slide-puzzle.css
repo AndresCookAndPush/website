@@ -1,0 +1,362 @@
+/* Estilos para el juego de puzzle deslizante */
+
+/* Contenedor principal del juego */
+.puzzle-game-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Contenedor principal que tiene el puzzle y la imagen lado a lado */
+.puzzle-main-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Contenedor izquierdo para la imagen completa */
+.puzzle-left-container {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    order: 1;
+    align-self: center;
+}
+
+/* Contenedor derecho para el puzzle */
+.puzzle-right-container {
+    flex: 1;
+    min-width: 300px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    order: 2;
+}
+
+/* Estadísticas del juego */
+.puzzle-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.puzzle-time, .puzzle-moves {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Controles del juego */
+.puzzle-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Botones */
+.puzzle-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 15px;
+    font-family: "Baloo 2", cursive;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.puzzle-button:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* Botones de dificultad */
+.puzzle-difficulty {
+    display: flex;
+    gap: 10px;
+}
+
+.difficulty-btn {
+    opacity: 0.7;
+}
+
+.difficulty-btn.active {
+    opacity: 1;
+    background-color: var(--accent-color);
+}
+
+/* Selector de imágenes */
+.puzzle-image-selector {
+    margin-bottom: 20px;
+    background-color: var(--primary-color);
+    padding: 15px;
+    border-radius: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    left: 0;
+    right: 0;
+}
+
+.puzzle-image-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    overflow-x: hidden;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.puzzle-image-option {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.puzzle-image-option:hover {
+    transform: scale(1.1);
+}
+
+.puzzle-image-option.active {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Contenedor del puzzle */
+.puzzle-container {
+    display: grid;
+    gap: 5px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 1;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 5px;
+    position: relative;
+}
+
+/* Tiles del puzzle */
+.puzzle-tile {
+    background-color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease;
+    background-size: cover;
+    background-position: center;
+}
+
+.puzzle-tile:hover {
+    transform: scale(0.98);
+}
+
+.puzzle-tile.empty {
+    background-color: transparent;
+    box-shadow: none;
+    cursor: default;
+}
+
+.puzzle-tile-number {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+/* Vista previa de la imagen */
+.puzzle-preview-container {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.puzzle-preview {
+    display: inline-block;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 250px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.puzzle-preview:hover {
+    transform: scale(1.05);
+}
+
+.puzzle-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Overlay para imagen ampliada */
+.puzzle-image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.puzzle-image-enlarged {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    padding: 10px;
+    position: relative;
+}
+
+.puzzle-image-enlarged img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Mensaje de victoria */
+.puzzle-victory-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: 20px;
+}
+
+.puzzle-victory-message {
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 80%;
+}
+
+.puzzle-victory-message h2 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 2rem;
+}
+
+.puzzle-victory-message p {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+/* Botón para volver a juegos */
+.back-to-games {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .puzzle-main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .puzzle-right-container {
+        margin-top: 0;
+        max-width: 100%;
+    }
+    
+    .puzzle-left-container {
+        max-width: 250px;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {    
+    .puzzle-image-options {
+        justify-content: center;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    
+    .puzzle-image-option {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+@media (max-width: 480px) {    
+    .puzzle-tile-number {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+    }
+    
+    .puzzle-image-option {
+        width: 40px;
+        height: 40px;
+    }
+}

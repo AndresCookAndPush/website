@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light only">
+    <meta name="supported-color-schemes" content="light">
+    <title>Puzzle Deslizante - TiBO</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="slide-puzzle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="../images/tibo-logo.png" type="image/png">
+    <link rel="shortcut icon" href="../images/tibo-logo.png" type="image/png">
+</head>
+<body class="morning">
+    <div id="sky-objects"></div>
+
+    <header>
+        <nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../images/tibo-logo.png" alt="TiBO Logo">
+                </a>
+                <div class="toybook-logo">
+                    <img src="../images/Logotipo_Toybook_Web.png" alt="Toybook Logo">
+                </div>
+            </div>
+            <ul class="menu">
+                <li><a href="../index.html">inicio</a></li>
+                <li><a href="../index.html#cuentos">cuentos</a></li>
+                <li><a href="../index.html#minijuegos">minijuegos</a></li>
+                <li><a href="../english.html">english</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <h2>Puzzle Deslizante</h2>
+            <!-- Eliminado el texto descriptivo -->
+            <div id="slide-puzzle" class="puzzle-game-container">
+                <!-- El juego se cargará aquí mediante JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../images/tibo-logo.png" alt="TiBO Logo">
+                <a href="../nosotros.html"><img src="../nosotros/Logo.png" alt="Logo del Estudio" style="height: 50px; margin-left: 20px;"></a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-links">
+                <a href="https://sites.google.com/view/toybook-privacypolicy/inicio" target="_blank">Política de Privacidad</a>
+                <a href="https://sites.google.com/view/toybook-termsanduseconditions/inicio" target="_blank">Términos y Condiciones</a>
+                <a href="../nosotros.html">Nosotros</a>
+            </div>
+            <p class="copyright">© 2025 TiBO. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="slide-puzzle.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Inicializar el juego de puzzle
+            SlidePuzzle.init('slide-puzzle', 1);
+            
+            // Inicializar funcionalidades del sitio
+            initializeSkyObjects();
+            initializeMenuToggle();
+        });
+    </script>
+</body>
+</html>
