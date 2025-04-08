@@ -223,13 +223,17 @@ function renderTiles(container) {
         tileElement.dataset.value = tile.value;
         
         // Calcular posición de la imagen para este tile
+        // Usamos el valor original de la pieza para determinar su posición en la imagen completa
+        // El valor de cada pieza indica su posición correcta en el puzzle resuelto
         const originalRow = Math.floor((tile.value - 1) / puzzleSize);
         const originalCol = (tile.value - 1) % puzzleSize;
         
         // Aplicar estilo con la porción de imagen correspondiente
         tileElement.style.backgroundImage = `url('../games/puzzle-images/Minigame_Puzzle_${currentImage}.png')`;
         tileElement.style.backgroundSize = `${puzzleSize * 100}%`;
-        tileElement.style.backgroundPosition = `${originalCol * tileSize}% ${originalRow * tileSize}%`;
+        // Ajustamos la posición de fondo para mostrar exactamente la porción correcta de la imagen
+        // Cada pieza debe mostrar solo su parte correspondiente de la imagen completa
+        tileElement.style.backgroundPosition = `${originalCol * (100 / (puzzleSize - 1))}% ${originalRow * (100 / (puzzleSize - 1))}%`;
         
         // Añadir número al tile (opcional, se puede quitar para mayor dificultad)
         tileElement.innerHTML = `<span class="puzzle-tile-number">${tile.value}</span>`;
