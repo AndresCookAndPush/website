@@ -1,5 +1,6 @@
 /* Fuentes */
-@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap");
 
 /* Variables */
 :root {
@@ -47,10 +48,8 @@ body.morning {
 
 body.afternoon {
   background: linear-gradient(180deg, 
-    #ffb92e 0%, 
-    #ffbf83 25%, 
-    #ff9665 60%, 
-    #ff7e47 100%);
+    #faccd0 30%,
+    #fdb8be 70%);
   --cloud-color: rgba(255, 248, 240, 0.8);
   --text-shadow-color: rgba(122, 50, 10, 0.3);
 }
@@ -170,6 +169,7 @@ nav {
   border-radius: 20px;
   transition: all 0.3s ease;
   text-transform: uppercase;
+  font-family: "Poetsen One", cursive;
 }
 
 .menu li a:hover {
@@ -214,6 +214,7 @@ nav {
   color: var(--secondary-color);
   margin-bottom: 20px;
   line-height: 1.2;
+  font-family: "Poetsen One", cursive;
 }
 
 .welcome-message p {
@@ -331,7 +332,7 @@ nav {
   position: relative;
   /* background-color: var(--light-color); */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  margin: 30px auto;
+  margin: 130px auto;
   border-radius: 20px;
   max-width: 1400px;
 }
@@ -344,6 +345,7 @@ nav {
   text-align: center;
   font-weight: 700;
   text-transform: uppercase;
+  font-family: "Poetsen One", cursive;
   text-shadow: 2px 2px 4px var(--text-shadow-color, transparent);
   background-image: url('images/NormalClouds_Day.01.png');
   background-size: 1000px auto;
@@ -480,6 +482,7 @@ nav {
   color: var(--secondary-color);
   margin-bottom: 5px;
   padding: 0 10px;
+  font-family: "Poetsen One", cursive;
 }
 
 .story-card p,
