@@ -472,7 +472,7 @@ nav {
   border-radius: 20px;
   flex-direction: column;
   height: 200px;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .story-card h3,
@@ -483,6 +483,10 @@ nav {
   margin-bottom: 5px;
   padding: 0 10px;
   font-family: "Poetsen One", cursive;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .story-card p,
@@ -490,7 +494,9 @@ nav {
 .character-card p,
 .game-card p {
   margin-bottom: 20px;
-  padding: 0 10px;
+  padding: 0 0px;
+  height: 180px; /* Aumentado de 60px a 80px para dar más espacio al texto */
+  overflow: hidden;
 }
 
 .play-button {
@@ -504,6 +510,10 @@ nav {
   margin-top: auto;
   margin-bottom: 10px;
   align-self: center;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .play-button:hover {
