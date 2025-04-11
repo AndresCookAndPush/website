@@ -54,23 +54,38 @@ function createCards(pairs) {
     // Reiniciar array de cartas
     cards = [];
     
-    // Crear pares de cartas
-    for (let i = 1; i <= pairs; i++) {
+    // Total de imágenes disponibles (del 1 al 11)
+    const totalAvailableImages = 11;
+    
+    // Seleccionar aleatoriamente 'pairs' números de imágenes
+    const selectedValues = [];
+    while (selectedValues.length < pairs) {
+        // Generar un número aleatorio entre 1 y 11
+        const randomValue = Math.floor(Math.random() * totalAvailableImages) + 1;
+        
+        // Añadir el valor solo si no está ya en el array
+        if (!selectedValues.includes(randomValue)) {
+            selectedValues.push(randomValue);
+        }
+    }
+    
+    // Crear pares de cartas con los valores seleccionados
+    selectedValues.forEach((value, index) => {
         // Cada par tiene el mismo valor pero diferente id
         cards.push({
-            id: i + '-A',
-            value: i,
+            id: (index + 1) + '-A',
+            value: value,  // Usamos el valor aleatorio seleccionado
             flipped: false,
             matched: false
         });
         
         cards.push({
-            id: i + '-B',
-            value: i,
+            id: (index + 1) + '-B',
+            value: value,  // Usamos el valor aleatorio seleccionado
             flipped: false,
             matched: false
         });
-    }
+    });
     
     // Barajar cartas
     shuffleCards();
