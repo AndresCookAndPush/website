@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeMenuToggle() // Add this line to initialize the menu toggle functionality
   initializeSectionManagement()
   initializeCarouselAdmin() // Inicializar el panel de admin del carrusel
+  initializeStoryModal() // Inicializar el modal para los videos de cuentos
   applyCarouselConfig() // Aplicar configuración del carrusel después de todo
 })
 
@@ -580,6 +581,81 @@ function centerMenu() {
     // Aseguramos que el menú tenga justificación centrada
     menuContainer.style.justifyContent = 'center';
   }
+}
+
+// Función para inicializar el modal para los videos de cuentos
+function initializeStoryModal() {
+  // Seleccionar el primer botón "Leer" del cuento Abradacabra
+  const firstStoryButton = document.querySelector('.story-card:first-child .play-button');
+  const modal = document.getElementById('storyModal');
+  const closeModalBtn = document.querySelector('.close-modal');
+  const youtubeVideo = document.getElementById('youtubeVideo');
+  const modalDownloadSection = document.getElementById('modalDownloadSection');
+  
+  // URL del video de YouTube para el cuento Abradacabra (reemplazar con la URL real)
+  const youtubeVideoUrl = 'https://www.youtube.com/embed/nK4bnNjGRWs?enablejsapi=1';
+  
+  // Función para abrir el modal
+  function openModal() {
+    // Establecer la URL del video
+    youtubeVideo.src = youtubeVideoUrl;
+    
+    // Mostrar el modal
+    modal.style.display = 'block';
+    
+    // Ocultar inicialmente la sección de descarga
+    modalDownloadSection.classList.remove('active');
+    
+    // Escuchar cuando termina el video para mostrar las opciones de descarga
+    // Esto requiere la API de YouTube, que se inicializa cuando el iframe está listo
+    window.onYouTubeIframeAPIReady = function() {
+      new YT.Player('youtubeVideo', {
+        events: {
+          'onStateChange': function(event) {
+            // El estado 0 significa que el video ha terminado
+            if (event.data === 0) {
+              // Mostrar la sección de descarga
+              modalDownloadSection.classList.add('active');
+            }
+          }
+        }
+      });
+    };
+    
+    // Cargar la API de YouTube si aún no está cargada
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+  }
+  
+  // Función para cerrar el modal
+  function closeModal() {
+    modal.style.display = 'none';
+    // Detener el video al cerrar el modal
+    youtubeVideo.src = '';
+  }
+  
+  // Asignar eventos
+  if (firstStoryButton) {
+    firstStoryButton.addEventListener('click', function(e) {
+      e.preventDefault(); // Prevenir la redirección
+      openModal();
+    });
+  }
+  
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', closeModal);
+  }
+  
+  // Cerrar el modal al hacer clic fuera del contenido
+  window.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
 }
 
 // Función para guardar la configuración en localStorage
